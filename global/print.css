@@ -1,0 +1,78 @@
+/*
+File: global/print.css
+Purpose: Print stylesheet — only table content should be printed
+*/
+
+/* ===== Hide everything by default ===== */
+body *{
+  visibility:hidden;
+}
+
+/* ===== Show only the schedule table and its contents ===== */
+#scheduleTable,
+#scheduleTable *,
+#mainSchedule,
+#mainSchedule *{
+  visibility:visible;
+}
+
+/* Position the table at top-left of the printed page */
+#scheduleTable{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+}
+
+/* ===== Table print styles ===== */
+.schedule-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:11pt;
+}
+
+.schedule-table caption{
+  font-weight:bold;
+  text-align:left;
+  padding:8px 0;
+  font-size:13pt;
+}
+
+.schedule-table th,
+.schedule-table td{
+  border:1px solid #333;
+  padding:6px 10px;
+  text-align:center;
+}
+
+.schedule-table thead th{
+  background:#ddd !important;
+  color:#000 !important;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+
+/* Remove shadows, rounded corners for print */
+.table-wrap{
+  border:none;
+  box-shadow:none;
+  border-radius:0;
+  overflow:visible;
+}
+
+/* ===== Hide interactive and decorative elements ===== */
+.site-header,
+.site-footer,
+.nav,
+.nav-toggle,
+.page-hero,
+.schedule-info,
+.hero,
+.feedback-layout,
+.feedback-card,
+.feedback-sidebar,
+.feedback-success,
+.services-grid,
+.benefits-grid{
+  display:none !important;
+}

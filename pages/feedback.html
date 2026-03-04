@@ -1,0 +1,229 @@
+<!--
+File: pages/feedback.html
+Purpose: ShipSmart Feedback Page — user feedback form with validation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShipSmart | Feedback</title>
+
+  <!-- External CSS  -->
+  <link rel="stylesheet" href="../global/main.css" />
+  <!-- Print CSS -->
+  <link rel="stylesheet" href="../global/print.css" media="print" />
+</head>
+
+<body>
+  <!-- ===================== HEADER (Semantic Tag) ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <!-- Brand -->
+      <a class="brand" href="../index.html" aria-label="ShipSmart Home">
+        <img class="brand-logo" src="../images/_Shipsmart logo 3.svg" alt="ShipSmart logo" />
+        <span class="brand-name">ShipSmart</span>
+      </a>
+
+      <!-- Navigation (consistent across pages) -->
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="../index.html">Home</a></li>
+          <li><a class="nav-link" href="services.html">Services</a></li>
+          <li><a class="nav-link" href="schedule.html">Schedule</a></li>
+          <li><a class="nav-link" href="video.html">Video</a></li>
+          <li><a class="nav-link is-active" href="feedback.html">Feedback</a></li>
+        </ul>
+      </nav>
+
+      <!-- Mobile toggle -->
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+    <!-- ===================== PAGE HEADING ===================== -->
+    <section class="section page-hero">
+      <div class="container">
+        <h1>Share Your Feedback</h1>
+        <p class="muted">
+          We value your opinion! Fill out the form below to help us improve ShipSmart.
+          All fields marked with <span class="required-star">*</span> are required.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== FEEDBACK FORM ===================== -->
+    <section class="section">
+      <div class="container feedback-layout">
+        <!-- Left: Form -->
+        <form id="feedbackForm" class="card feedback-card" action="../server/process_feedback.php" method="POST" novalidate>
+          <h2>Feedback Form</h2>
+
+          <!-- Text field: Full Name -->
+          <div class="form-group">
+            <label for="fullName">Full Name <span class="required-star">*</span></label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="e.g., Sara Ahmed"
+              required
+            />
+            <p class="error" id="nameError" aria-live="polite"></p>
+          </div>
+
+          <!-- Text field: Email -->
+          <div class="form-group">
+            <label for="email">Email Address <span class="required-star">*</span></label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="e.g., sara@example.com"
+              required
+            />
+            <p class="error" id="emailError" aria-live="polite"></p>
+          </div>
+
+          <!-- Radio buttons: Rating -->
+          <fieldset class="form-group form-fieldset">
+            <legend>How would you rate our service? <span class="required-star">*</span></legend>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="rating" value="good" required />
+                <span class="radio-custom"></span>
+                Good
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="rating" value="average" />
+                <span class="radio-custom"></span>
+                Average
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="rating" value="poor" />
+                <span class="radio-custom"></span>
+                Poor
+              </label>
+            </div>
+            <p class="error" id="ratingError" aria-live="polite"></p>
+          </fieldset>
+
+          <!-- Checkboxes: Services used -->
+          <fieldset class="form-group form-fieldset">
+            <legend>Which services have you used? <span class="required-star">*</span></legend>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="services[]" value="tracking" />
+                <span class="checkbox-custom"></span>
+                Shipment Tracking
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="services[]" value="scheduling" />
+                <span class="checkbox-custom"></span>
+                Schedule Lookup
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="services[]" value="notifications" />
+                <span class="checkbox-custom"></span>
+                Notifications
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" name="services[]" value="multicarrier" />
+                <span class="checkbox-custom"></span>
+                Multi-Carrier Support
+              </label>
+            </div>
+            <p class="error" id="servicesError" aria-live="polite"></p>
+          </fieldset>
+
+          <!-- Dropdown menu: Preferred carrier -->
+          <div class="form-group">
+            <label for="preferredCarrier">Preferred Carrier <span class="required-star">*</span></label>
+            <select id="preferredCarrier" name="preferredCarrier" required>
+              <option value="" disabled selected>Select a carrier</option>
+              <option value="aramex">Aramex</option>
+              <option value="dhl">DHL</option>
+              <option value="fedex">FedEx</option>
+              <option value="smsa">SMSA</option>
+              <option value="other">Other</option>
+            </select>
+            <p class="error" id="carrierPrefError" aria-live="polite"></p>
+          </div>
+
+          <!-- Textarea: Additional comments -->
+          <div class="form-group">
+            <label for="comments">Additional Comments</label>
+            <textarea
+              id="comments"
+              name="comments"
+              rows="5"
+              placeholder="Tell us more about your experience…"
+            ></textarea>
+            <p class="hint" id="charCount">0 / 500 characters</p>
+          </div>
+
+          <!-- Submit & Reset -->
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Submit Feedback</button>
+            <button class="btn btn-ghost" type="reset" id="resetBtn">Clear Form</button>
+          </div>
+        </form>
+
+    <!-- ===================== SUCCESS MESSAGE (hidden, shown via JS) ===================== -->
+    <div id="feedbackSuccess" class="container feedback-success" hidden>
+      <div class="card success-card">
+        <h2>Thank You!</h2>
+        <p>Your feedback has been submitted successfully. We appreciate your time!</p>
+        <div class="form-actions" style="justify-content:center">
+          <a class="btn btn-primary btn-inline" href="../index.html">Back to Home</a>
+          <button class="btn btn-ghost" type="button" id="submitAnotherBtn">Submit Another</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================== FOOTER (Semantic Tag) ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img class="footer-logo" src="../images/_Shipsmart logo 3.svg" alt="ShipSmart logo" />
+          <strong>ShipSmart</strong>
+        </div>
+        <p class="muted small">
+          Universal Shipment Tracker — a course project for CPCS 403.
+        </p>
+        <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
+      </div>
+
+      <div>
+        <p class="footer-title">Pages</p>
+        <ul class="footer-links">
+          <li><a href="services.html">Services</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="video.html">Video</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-title">Social</p>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><img src="../images/instagram logo.svg" alt="" aria-hidden="true" /></a>
+          <a href="#" aria-label="Facebook"><img src="../images/facebook logo.svg" alt="" aria-hidden="true" /></a>
+          <a href="#" aria-label="Pinterest"><img src="../images/pintreset logo.svg" alt="" aria-hidden="true" /></a>
+          <a href="#" aria-label="X"><img src="../images/X logo.svg" alt="" aria-hidden="true" /></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- External JS (includes feedback validation) -->
+  <script src="../scripts/main.js"></script>
+</body>
+</html>
