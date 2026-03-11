@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShipSmart — Website Storyboard | CPCS 403</title>
+  <style>
+    /* Base */
+    :root {
+      --primary: #7b2b6a;
+      --primary-light: #fbf7ff;
+      --border: #e0d4de;
+      --text: #1a1a1a;
+      --muted: #555;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .doc-header {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    .doc-header h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.75rem;
+      color: var(--primary);
+    }
+    .doc-meta {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    /* Overview */
+    .overview {
+      background: var(--primary-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .overview h2 { margin-top: 0; font-size: 1.1rem; color: var(--primary); }
+    .overview p { margin: 0; }
+
+    /* Section titles */
+    h2 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.35rem;
+    }
+
+    /* Site flow */
+    .flow-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .flow-badge {
+      padding: 0.4rem 0.75rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .flow-arrow {
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    /* Page cards */
+    .page-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      background: #fff;
+      break-inside: avoid;
+    }
+    .page-card:hover { border-color: var(--primary); }
+    .page-card h3 {
+      margin: 0 0 0.75rem;
+      font-size: 1.1rem;
+      color: var(--primary);
+    }
+    .page-card .filename {
+      font-family: "Consolas", monospace;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .page-card .field {
+      margin-bottom: 0.6rem;
+    }
+    .page-card .field-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .page-card .field-value {
+      font-size: 0.95rem;
+      color: #333;
+      margin: 0.2rem 0 0;
+    }
+    .page-card p { margin: 0.5rem 0 0; }
+
+    /* User journey */
+    .journey-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .journey-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    .journey-list li:last-child { border-bottom: none; }
+    .journey-num {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    /* Technical notes */
+    .tech-notes {
+      background: #f8f8f8;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .tech-notes ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    .tech-notes li { margin-bottom: 0.4rem; }
+
+    /* Conclusion */
+    .conclusion {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    /* Print */
+    @media print {
+      body { padding: 1rem; }
+      .page-card { break-inside: avoid; }
+      .doc-header { border-bottom-color: #333; }
+      h2 { color: #000; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Title / Header -->
+  <header class="doc-header">
+    <h1>ShipSmart Website — Storyboard</h1>
+    <p class="doc-meta">CPCS 403 Assignment 1 | ShipSmart Universal Shipment Tracker</p>
+  </header>
+
+  <!-- Project overview -->
+  <section class="overview">
+    <h2>Project Overview</h2>
+    <p>ShipSmart is a unified shipment tracking web application that allows users to track packages across multiple carriers (Aramex, DHL, FedEx, SMSA) from a single interface. This storyboard defines the structure, flow, and content of the 5-page site required for the assignment.</p>
+  </section>
+
+  <!-- Site flow overview -->
+  <h2>Site Flow Overview</h2>
+  <div class="flow-wrap">
+    <span class="flow-badge">index.html</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-badge">services.html</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-badge">schedule.html</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-badge">video.html</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-badge">feedback.html</span>
+  </div>
+  <p>All pages share a consistent header and footer with site-wide navigation. Users can move between pages in any order via the main nav links.</p>
+
+  <!-- Individual page storyboard cards -->
+  <h2>Page Storyboard</h2>
+
+  <div class="page-card">
+    <h3>1. Home</h3>
+    <p class="filename">index.html</p>
+    <div class="field">
+      <div class="field-label">Purpose</div>
+      <div class="field-value">Introduce ShipSmart and provide immediate access to the core tracking feature.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Main content</div>
+      <div class="field-value">Hero section, tracking form (number + carrier), supported carrier logos, feature cards (multi-carrier tracking, progress timeline, fast UI), how-it-works steps, testimonial, contact info.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">User interaction / outcome</div>
+      <div class="field-value">User enters tracking number and carrier to view shipment status. Can use demo mode to see results without a backend.</div>
+    </div>
+  </div>
+
+  <div class="page-card">
+    <h3>2. Services</h3>
+    <p class="filename">pages/services.html</p>
+    <div class="field">
+      <div class="field-label">Purpose</div>
+      <div class="field-value">Describe the services and benefits ShipSmart offers.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Main content</div>
+      <div class="field-value">Service cards, benefits grid, and feature overview (multi-carrier tracking, progress timeline, modern UI).</div>
+    </div>
+    <div class="field">
+      <div class="field-label">User interaction / outcome</div>
+      <div class="field-value">User learns about available features and decides to explore tracking, schedule, or feedback.</div>
+    </div>
+  </div>
+
+  <div class="page-card">
+    <h3>3. Schedule</h3>
+    <p class="filename">pages/schedule.html</p>
+    <div class="field">
+      <div class="field-label">Purpose</div>
+      <div class="field-value">Display weekly pickup and delivery windows for each carrier in a structured, printable format.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Main content</div>
+      <div class="field-value">Properly formatted HTML table with caption, thead, tbody, rowspan and colspan. Important notes and express delivery zones. print.css ensures only the table prints.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">User interaction / outcome</div>
+      <div class="field-value">User views or prints the schedule to plan shipments. Print preview shows only table content.</div>
+    </div>
+  </div>
+
+  <div class="page-card">
+    <h3>4. Video</h3>
+    <p class="filename">pages/video.html</p>
+    <div class="field">
+      <div class="field-label">Purpose</div>
+      <div class="field-value">Provide video demonstration or promotional content about ShipSmart.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Main content</div>
+      <div class="field-value">Embedded video (demo, tutorial, or promotional) with supporting text.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">User interaction / outcome</div>
+      <div class="field-value">User watches the video to understand how ShipSmart works or see a demo.</div>
+    </div>
+  </div>
+
+  <div class="page-card">
+    <h3>5. Feedback</h3>
+    <p class="filename">pages/feedback.html</p>
+    <div class="field">
+      <div class="field-label">Purpose</div>
+      <div class="field-value">Collect user feedback to improve the service.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">Main content</div>
+      <div class="field-value">Structured form: Name, Email, rating (Good/Average/Poor), service checkboxes, preferred carrier dropdown, comments textarea. Client-side validation in main.js; submits to process_feedback.php.</div>
+    </div>
+    <div class="field">
+      <div class="field-label">User interaction / outcome</div>
+      <div class="field-value">User fills form and submits. Validation prevents invalid submission; success message shown after submission.</div>
+    </div>
+  </div>
+
+  <!-- User journey -->
+  <h2>User Journey / Navigation</h2>
+  <p>A typical path through the site:</p>
+  <ol class="journey-list">
+    <li><span class="journey-num">1</span> User lands on <strong>Home</strong> and learns about ShipSmart.</li>
+    <li><span class="journey-num">2</span> User may visit <strong>Services</strong> to understand features and benefits.</li>
+    <li><span class="journey-num">3</span> User checks <strong>Schedule</strong> to see pickup and delivery windows; can print the table.</li>
+    <li><span class="journey-num">4</span> User watches the <strong>Video</strong> for a demo or tutorial.</li>
+    <li><span class="journey-num">5</span> User submits <strong>Feedback</strong> to share their experience.</li>
+  </ol>
+  <p>Navigation is non-linear: header and footer links allow access to any page at any time.</p>
+
+  <!-- Technical notes -->
+  <h2>Technical Notes</h2>
+  <div class="tech-notes">
+    <ul>
+      <li><strong>CSS:</strong> global/main.css — table and form styling; external stylesheet used across all pages.</li>
+      <li><strong>Print:</strong> global/print.css — table-only printing when user prints from Schedule page.</li>
+      <li><strong>JavaScript:</strong> scripts/main.js — feedback form validation, nav toggle, tracking demo.</li>
+      <li><strong>Backend:</strong> server/process_feedback.php — receives and stores feedback.</li>
+      <li><strong>Structure:</strong> Minimum 5 pages; consistent header/footer; semantic HTML; HTML/CSS validation; Edge compatibility.</li>
+    </ul>
+  </div>
+
+  <!-- Conclusion -->
+  <section class="conclusion">
+    <p>This storyboard supports the CPCS 403 assignment requirements: 5 pages, schedule table, feedback form, external CSS, print.css, and validation. All pages are linked via consistent navigation.</p>
+  </section>
+</body>
+</html>

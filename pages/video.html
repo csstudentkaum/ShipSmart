@@ -1,0 +1,131 @@
+<!--
+Name: Wareef Alzubaidi
+ID: 2207221
+Section: CPCS403
+Date: 2026-03-11
+File: pages/video.html
+Purpose: ShipSmart Video Page — demo/promo video embed with platform description
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShipSmart | Video</title>
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="../global/main.css">
+  <link rel="stylesheet" href="../global/print.css" media="print">
+</head>
+
+<body>
+  <!-- ===================== HEADER ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" aria-label="ShipSmart Home">
+        <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+        <span class="brand-name">ShipSmart</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="../index.html">Home</a></li>
+          <li><a class="nav-link" href="services.html">Services</a></li>
+          <li><a class="nav-link" href="schedule.html">Schedule</a></li>
+          <li><a class="nav-link is-active" href="video.html">Video</a></li>
+          <li><a class="nav-link" href="feedback.html">Feedback</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== MAIN ===================== -->
+  <main>
+    <!-- ===================== PAGE HEADING ===================== -->
+    <section class="section page-hero">
+      <div class="container">
+        <h1>Platform Demo</h1>
+        <p class="muted">
+          Watch how ShipSmart brings multi-carrier tracking into one simple dashboard.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== VIDEO SECTION ===================== -->
+    <section class="section">
+      <div class="container">
+        <h2>ShipSmart in Action</h2>
+        <div class="video-wrap card">
+          <video
+            src="../videos/ShipSmart.mp4"
+            controls
+            width="100%"
+            preload="metadata"
+          >
+            <p>Your browser does not support the video element. <a href="../videos/ShipSmart.mp4">Download the video</a> instead.</p>
+          </video>
+        </div>
+
+        <!-- Platform description -->
+        <div class="section" style="padding-top: 1.5rem;">
+          <h3>What ShipSmart Does</h3>
+          <p>
+            ShipSmart is a universal shipment tracker that lets you follow packages from Aramex, DHL, FedEx,
+            and SMSA in one place. Enter a tracking number, select the carrier, and get status updates,
+            an ETA, and a visual progress timeline. No more juggling multiple carrier websites.
+          </p>
+          <ul>
+            <li>Unified tracking across all supported carriers</li>
+            <li>Clear step-by-step progress timeline</li>
+            <li>Weekly pickup and delivery schedules</li>
+            <li>Simple feedback form to help us improve</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+          <strong>ShipSmart</strong>
+        </div>
+        <p class="muted small">
+          Universal Shipment Tracker — a course project for CPCS 403.
+        </p>
+        <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
+      </div>
+
+      <div>
+        <p class="footer-title">Pages</p>
+        <ul class="footer-links">
+          <li><a href="services.html">Services</a></li>
+          <li><a href="schedule.html">Schedule</a></li>
+          <li><a href="video.html">Video</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-title">Social</p>
+        <div class="social">
+          <a href="#" aria-label="Instagram"><img src="../images/instagram-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="Facebook"><img src="../images/facebook-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="Pinterest"><img src="../images/pinterest-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="X"><img src="../images/x-logo.svg" alt="" aria-hidden="true"></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

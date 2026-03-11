@@ -1,4 +1,8 @@
 <!--
+Name: Wareef Alzubaidi
+ID: 2207221
+Section: CPCS403
+Date: 2026-03-11
 File: pages/feedback.html
 Purpose: ShipSmart Feedback Page — user feedback form with validation
 -->
@@ -6,14 +10,14 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShipSmart | Feedback</title>
 
   <!-- External CSS  -->
-  <link rel="stylesheet" href="../global/main.css" />
+  <link rel="stylesheet" href="../global/main.css">
   <!-- Print CSS -->
-  <link rel="stylesheet" href="../global/print.css" media="print" />
+  <link rel="stylesheet" href="../global/print.css" media="print">
 </head>
 
 <body>
@@ -22,7 +26,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
     <div class="container header-inner">
       <!-- Brand -->
       <a class="brand" href="../index.html" aria-label="ShipSmart Home">
-        <img class="brand-logo" src="../images/_Shipsmart logo 3.svg" alt="ShipSmart logo" />
+        <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
         <span class="brand-name">ShipSmart</span>
       </a>
 
@@ -73,7 +77,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
               name="fullName"
               placeholder="e.g., Sara Ahmed"
               required
-            />
+            >
             <p class="error" id="nameError" aria-live="polite"></p>
           </div>
 
@@ -86,7 +90,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
               name="email"
               placeholder="e.g., sara@example.com"
               required
-            />
+            >
             <p class="error" id="emailError" aria-live="polite"></p>
           </div>
 
@@ -95,17 +99,17 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
             <legend>How would you rate our service? <span class="required-star">*</span></legend>
             <div class="radio-group">
               <label class="radio-label">
-                <input type="radio" name="rating" value="good" required />
+                <input type="radio" name="rating" value="good" required>
                 <span class="radio-custom"></span>
                 Good
               </label>
               <label class="radio-label">
-                <input type="radio" name="rating" value="average" />
+                <input type="radio" name="rating" value="average">
                 <span class="radio-custom"></span>
                 Average
               </label>
               <label class="radio-label">
-                <input type="radio" name="rating" value="poor" />
+                <input type="radio" name="rating" value="poor">
                 <span class="radio-custom"></span>
                 Poor
               </label>
@@ -118,22 +122,22 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
             <legend>Which services have you used? <span class="required-star">*</span></legend>
             <div class="checkbox-group">
               <label class="checkbox-label">
-                <input type="checkbox" name="services[]" value="tracking" />
+                <input type="checkbox" name="services[]" value="tracking">
                 <span class="checkbox-custom"></span>
                 Shipment Tracking
               </label>
               <label class="checkbox-label">
-                <input type="checkbox" name="services[]" value="scheduling" />
+                <input type="checkbox" name="services[]" value="scheduling">
                 <span class="checkbox-custom"></span>
                 Schedule Lookup
               </label>
               <label class="checkbox-label">
-                <input type="checkbox" name="services[]" value="notifications" />
+                <input type="checkbox" name="services[]" value="notifications">
                 <span class="checkbox-custom"></span>
                 Notifications
               </label>
               <label class="checkbox-label">
-                <input type="checkbox" name="services[]" value="multicarrier" />
+                <input type="checkbox" name="services[]" value="multicarrier">
                 <span class="checkbox-custom"></span>
                 Multi-Carrier Support
               </label>
@@ -173,6 +177,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
             <button class="btn btn-ghost" type="reset" id="resetBtn">Clear Form</button>
           </div>
         </form>
+      </div>
 
     <!-- ===================== SUCCESS MESSAGE (hidden, shown via JS) ===================== -->
     <div id="feedbackSuccess" class="container feedback-success" hidden>
@@ -185,6 +190,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
         </div>
       </div>
     </div>
+    </section>
   </main>
 
   <!-- ===================== FOOTER (Semantic Tag) ===================== -->
@@ -192,7 +198,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
     <div class="container footer-grid">
       <div>
         <div class="footer-brand">
-          <img class="footer-logo" src="../images/_Shipsmart logo 3.svg" alt="ShipSmart logo" />
+          <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
           <strong>ShipSmart</strong>
         </div>
         <p class="muted small">
@@ -214,10 +220,10 @@ Purpose: ShipSmart Feedback Page — user feedback form with validation
       <div>
         <p class="footer-title">Social</p>
         <div class="social">
-          <a href="#" aria-label="Instagram"><img src="../images/instagram logo.svg" alt="" aria-hidden="true" /></a>
-          <a href="#" aria-label="Facebook"><img src="../images/facebook logo.svg" alt="" aria-hidden="true" /></a>
-          <a href="#" aria-label="Pinterest"><img src="../images/pintreset logo.svg" alt="" aria-hidden="true" /></a>
-          <a href="#" aria-label="X"><img src="../images/X logo.svg" alt="" aria-hidden="true" /></a>
+          <a href="#" aria-label="Instagram"><img src="../images/instagram-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="Facebook"><img src="../images/facebook-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="Pinterest"><img src="../images/pinterest-logo.svg" alt="" aria-hidden="true"></a>
+          <a href="#" aria-label="X"><img src="../images/x-logo.svg" alt="" aria-hidden="true"></a>
         </div>
       </div>
     </div>

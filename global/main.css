@@ -341,6 +341,10 @@ input[type="text"]:focus, select:focus{
   border:1px dashed var(--border);
   background:#fff;
 }
+.loading[hidden],
+#loadingBox[hidden]{
+  display:none !important;
+}
 .spinner{
   width:20px; height:20px;
   border:3px solid #eee;
@@ -1021,7 +1025,7 @@ cite{
 /* ===================== SERVICES PAGE ===================== */
 .services-grid{
   display:grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(2,1fr);
   gap:18px;
   margin-top:16px;
 }
@@ -1060,6 +1064,21 @@ cite{
   padding-left:20px;
   margin:8px 0 0;
   color:#2b2b2b;
+}
+
+/* ===================== VIDEO PAGE ===================== */
+.video-wrap{
+  padding:0;
+  overflow:hidden;
+}
+.video-wrap video{
+  display:block;
+  width:100%;
+  max-width:100%;
+}
+.video-wrap code{
+  font-family: Consolas, monospace;
+  font-size:0.9em;
 }
 
 /* ===================== RESPONSIVE (inner pages) ===================== */

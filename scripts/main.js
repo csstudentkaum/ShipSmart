@@ -110,6 +110,8 @@ Purpose: ShipSmart JS (nav toggle, form validation, demo results timeline)
   ];
 
   const renderDemo = () => {
+    showLoading(false);
+
     const pick = demo[Math.floor(Math.random() * demo.length)];
     const now = new Date();
 
@@ -134,15 +136,14 @@ Purpose: ShipSmart JS (nav toggle, form validation, demo results timeline)
   });
 
   trackForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+
     if (!validate()) {
-      e.preventDefault();
       return;
     }
 
     // If demo mode enabled -> show result on this page (no PHP needed)
     if (demoMode?.checked) {
-      e.preventDefault();
-
       showResult(false);
       resetTimeline();
       setBadge("Loading", "info");
@@ -156,7 +157,8 @@ Purpose: ShipSmart JS (nav toggle, form validation, demo results timeline)
       return;
     }
 
-    // Otherwise: allow normal POST to server/track.php (backend by Member B)
+    // Otherwise: programmatic POST to server/track.php (submit() does not re-trigger this handler)
+    trackForm.submit();
   });
 
   newSearchBtn?.addEventListener("click", () => {
