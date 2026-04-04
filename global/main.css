@@ -1,12 +1,22 @@
 /*
-Name: Sama Salem Saloum
-ID: 2205679
-Section: CPCS403
-Date: 27-02-2026
-File: global/main.css
-Purpose: Global styling for ShipSmart (Webflow-style landing page)
-*/
+Member 1:
+  Name: Wareef Alzubaidi
+  Student ID: 2207221
+  Section: DAR
 
+Member 2:
+  Name: Sama Salem Salloum
+  Student ID: 2205679
+  Section: DAR
+
+Member 3:
+  Name: Manar Abdullah Alharbi
+  Student ID: 2206712
+  Section: DAR
+
+File: global/main.css
+Purpose: Global stylesheet for ShipSmart — all layout, typography, colors, components, responsive design, and animations.
+*/
 :root{
   --bg: #ffffff;
   --soft: #fbf7ff;

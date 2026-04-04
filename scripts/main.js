@@ -1,12 +1,22 @@
 /*
-Name: Sama Salem Saloum
-ID: 2205679
-Section: CPCS403
-Date: 27-02-2026
-File: scripts/main.js
-Purpose: ShipSmart JS (nav toggle, form validation, demo results timeline)
-*/
+Member 1:
+  Name: Wareef Alzubaidi
+  Student ID: 2207221
+  Section: DAR
 
+Member 2:
+  Name: Sama Salem Salloum
+  Student ID: 2205679
+  Section: DAR
+
+Member 3:
+  Name: Manar Abdullah Alharbi
+  Student ID: 2206712
+  Section: DAR
+
+File: scripts/main.js
+Purpose: JavaScript functionality — navigation toggle, tracking form validation, demo mode results, timeline rendering, and feedback form validation with success handling.
+*/
 (() => {
   "use strict";
 

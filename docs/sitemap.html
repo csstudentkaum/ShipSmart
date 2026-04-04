@@ -1,46 +1,208 @@
+<!--
+Member 1:
+  Name: Wareef Alzubaidi
+  Student ID: 2207221
+  Section: DAR
+
+Member 2:
+  Name: Sama Salem Salloum
+  Student ID: 2205679
+  Section: DAR
+
+Member 3:
+  Name: Manar Abdullah Alharbi
+  Student ID: 2206712
+  Section: DAR
+
+File: docs/sitemap.html
+Purpose: ShipSmart UX Sitemap — documents the website structure, page hierarchy, navigation flow, and shared assets.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShipSmart — Sitemap | CPCS 403</title>
+  <title>ShipSmart — UX Sitemap | CPCS 403</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 700px; margin: 2rem auto; padding: 0 1.5rem; }
-    h1 { color: #7b2b6a; }
-    .sitemap { list-style: none; padding: 0; }
-    .sitemap li { margin: 0.5rem 0; padding-left: 1.25rem; position: relative; }
-    .sitemap li::before { content: "—"; position: absolute; left: 0; color: #7b2b6a; }
-    .sitemap .file { font-family: Consolas, monospace; font-size: 0.9rem; color: #333; }
-    .sitemap .page-name { font-weight: 700; color: #222; }
-    .meta { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,sans-serif;max-width:800px;margin:0 auto;padding:2.5rem 1.5rem;color:#1a1a1a;line-height:1.7}
+    h1{color:#7b2b6a;font-size:1.8rem;margin-bottom:.3rem}
+    h2{color:#7b2b6a;font-size:1.2rem;margin:2rem 0 .8rem;border-bottom:2px solid #f0e6ef;padding-bottom:.4rem}
+    .subtitle{color:#666;font-size:.95rem;margin-bottom:2rem}
+    table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:.9rem}
+    th,td{text-align:left;padding:10px 14px;border:1px solid #e0d4de}
+    th{background:#7b2b6a;color:#fff;font-weight:600}
+    tr:nth-child(even){background:#fbf7ff}
+    code{font-family:Consolas,'Courier New',monospace;background:#f5f0f7;padding:2px 6px;border-radius:4px;font-size:.85rem;color:#7b2b6a}
+    .note{background:#fff6f0;border:1px solid #f5dcc8;border-radius:8px;padding:14px 18px;font-size:.85rem;line-height:1.6;margin-top:1.5rem}
+    .note strong{color:#ff8a1f}
+    ul{margin:.5rem 0 1rem 1.5rem}
+    li{margin-bottom:.3rem;font-size:.9rem}
   </style>
 </head>
 <body>
-  <h1>ShipSmart — Sitemap</h1>
-  <p class="meta">CPCS 403 Assignment 1 | Sitemap</p>
 
-  <h2>Site Structure</h2>
-  <ul class="sitemap">
-    <li><span class="page-name">Home</span> — <span class="file">index.html</span></li>
-    <li><span class="page-name">Services</span> — <span class="file">pages/services.html</span></li>
-    <li><span class="page-name">Schedule</span> — <span class="file">pages/schedule.html</span></li>
-    <li><span class="page-name">Video</span> — <span class="file">pages/video.html</span></li>
-    <li><span class="page-name">Feedback</span> — <span class="file">pages/feedback.html</span></li>
+  <h1>ShipSmart — UX Sitemap</h1>
+  <p class="subtitle">CPCS 403 | Website Structure &amp; Navigation Documentation</p>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 1: PAGE HIERARCHY
+       ═══════════════════════════════════════════ -->
+  <h2>1. Page Hierarchy</h2>
+  <p>The website follows a flat architecture where all pages are accessible from the main navigation bar within one click from the Home page.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Page</th>
+        <th>File</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Home</strong></td>
+        <td><code>index.html</code></td>
+        <td>Landing page with hero section, tracking form, feature cards, how-it-works steps, and testimonial.</td>
+      </tr>
+      <tr>
+        <td><strong>Services</strong></td>
+        <td><code>pages/services.html</code></td>
+        <td>Displays four core services: Shipment Tracking, Delivery Scheduling, Real-Time Notifications, and Multi-Carrier Integration.</td>
+      </tr>
+      <tr>
+        <td><strong>Schedule</strong></td>
+        <td><code>pages/schedule.html</code></td>
+        <td>Weekly shipping schedule table with pickup and delivery windows, important notes, and express delivery zones.</td>
+      </tr>
+      <tr>
+        <td><strong>Video</strong></td>
+        <td><code>pages/video.html</code></td>
+        <td>Embedded platform demo video with a description of what ShipSmart does.</td>
+      </tr>
+      <tr>
+        <td><strong>Feedback</strong></td>
+        <td><code>pages/feedback.html</code></td>
+        <td>User feedback form with client-side validation and a success confirmation message.</td>
+      </tr>
+      <tr>
+        <td><strong>About</strong></td>
+        <td><code>pages/about.html</code></td>
+        <td>Information about the ShipSmart team and project.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2: SUB-SECTIONS PER PAGE
+       ═══════════════════════════════════════════ -->
+  <h2>2. Sub-sections per Page</h2>
+
+  <p><strong>Home</strong> (<code>index.html</code>)</p>
+  <ul>
+    <li>Hero Section &amp; Tracking Form</li>
+    <li>Feature Cards (Multi-Carrier Tracking, Clear Progress Timeline, Fast &amp; Friendly UI)</li>
+    <li>How It Works (3 steps)</li>
+    <li>Testimonial &amp; Contact</li>
   </ul>
 
-  <h2>Assets & Scripts</h2>
-  <ul class="sitemap">
-    <li><span class="file">global/main.css</span></li>
-    <li><span class="file">global/print.css</span></li>
-    <li><span class="file">scripts/main.js</span></li>
-    <li><span class="file">images/</span></li>
-    <li><span class="file">videos/shipsmart-demo.mp4</span></li>
+  <p><strong>Services</strong> (<code>pages/services.html</code>)</p>
+  <ul>
+    <li>Shipment Tracking</li>
+    <li>Delivery Scheduling</li>
+    <li>Real-Time Notifications</li>
+    <li>Multi-Carrier Integration</li>
   </ul>
 
-  <h2>Server</h2>
-  <ul class="sitemap">
-    <li><span class="file">server/process_feedback.php</span></li>
-    <li><span class="file">server/track.php</span></li>
+  <p><strong>Schedule</strong> (<code>pages/schedule.html</code>)</p>
+  <ul>
+    <li>Weekly Schedule Table</li>
+    <li>Important Notes</li>
+    <li>Express Delivery Zones</li>
   </ul>
+
+  <p><strong>Video</strong> (<code>pages/video.html</code>)</p>
+  <ul>
+    <li>Platform Demo (embedded video)</li>
+    <li>What ShipSmart Does</li>
+  </ul>
+
+  <p><strong>Feedback</strong> (<code>pages/feedback.html</code>)</p>
+  <ul>
+    <li>Feedback Form (name, email, rating, services used, preferred carrier, comments)</li>
+    <li>Success Message</li>
+  </ul>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 3: SHARED ASSETS
+       ═══════════════════════════════════════════ -->
+  <h2>3. Shared Assets</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Asset</th>
+        <th>File</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Main Stylesheet</td>
+        <td><code>global/main.css</code></td>
+        <td>All layout, typography, colors, components, responsive design, and animations.</td>
+      </tr>
+      <tr>
+        <td>Print Stylesheet</td>
+        <td><code>global/print.css</code></td>
+        <td>Hides non-essential content; only prints the Schedule table.</td>
+      </tr>
+      <tr>
+        <td>JavaScript</td>
+        <td><code>scripts/main.js</code></td>
+        <td>Navigation toggle, tracking form validation, demo mode, timeline rendering, and feedback form validation.</td>
+      </tr>
+      <tr>
+        <td>Images</td>
+        <td><code>images/</code></td>
+        <td>SVG illustrations, logos, icons, and decorative elements.</td>
+      </tr>
+      <tr>
+        <td>Videos</td>
+        <td><code>videos/</code></td>
+        <td>Platform demo video (ShipSmart.mp4).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 4: SERVER FILES
+       ═══════════════════════════════════════════ -->
+  <h2>4. Server Files</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>server/process_feedback.php</code></td>
+        <td>Processes feedback form submissions and stores data in the database.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 5: NAVIGATION FLOW
+       ═══════════════════════════════════════════ -->
+  <h2>5. Navigation Flow</h2>
+  <p>All pages share the same navigation bar with five links: <strong>Home → Services → Schedule → Video → Feedback</strong>. The user can reach any page from any other page in a single click (flat architecture).</p>
+  <p>Every page also includes a consistent footer with page links, social media icons, and copyright information.</p>
+
+  <div class="note">
+    <strong>Note:</strong> All pages share the same header navigation and footer. Print CSS only applies to the Schedule page. The About page is accessible from the footer on select pages.
+  </div>
+
 </body>
 </html>

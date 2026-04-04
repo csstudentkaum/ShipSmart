@@ -1,4 +1,4 @@
-<!--
+/*
 Member 1:
   Name: Wareef Alzubaidi
   Student ID: 2207221
@@ -14,6 +14,6 @@ Member 3:
   Student ID: 2206712
   Section: DAR
 
-File: pages/about.html
-Purpose: ShipSmart About Page — information about the ShipSmart team and project.
--->
+File: server/process_feedback.php
+Purpose: PHP backend — processes feedback form submissions and stores data in the database.
+*/
