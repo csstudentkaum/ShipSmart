@@ -259,6 +259,11 @@ input[type="text"]:focus, select:focus{
   background:#fff;
   font-weight:900;
   cursor:pointer;
+  -webkit-appearance: none;   /* iOS Safari reset */
+  appearance: none;
+  touch-action: manipulation; /* remove iOS 300ms tap delay */
+  min-height: 44px;           /* Apple HIG minimum tappable height */
+  text-decoration: none;
 }
 .btn-primary{
   width:100%;

@@ -337,7 +337,6 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
     // — Submit handler —
     feedbackForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      e.stopImmediatePropagation();
 
       // Run full validation — stop here if anything fails
       if (!validateFeedback()) {
