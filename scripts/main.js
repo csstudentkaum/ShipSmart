@@ -148,11 +148,23 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
     trackBtn.disabled = !enabled;
     trackBtn.style.opacity = enabled ? "" : "0.45";
     trackBtn.style.cursor = enabled ? "" : "not-allowed";
+    // iOS Chrome: pointer-events:none stops all touch interaction
+    trackBtn.style.pointerEvents = enabled ? "" : "none";
   };
 
+  // iOS Chrome fires "click" instead of "change" on checkboxes — listen to both
   demoMode?.addEventListener("change", syncTrackBtn);
-  // Run once on load (checkbox starts checked, so button starts enabled)
+  demoMode?.addEventListener("click", syncTrackBtn);
+  // Run once on load
   syncTrackBtn();
+
+  // iOS Chrome extra guard: intercept touchend on the button itself
+  trackBtn?.addEventListener("touchend", (e) => {
+    if (!demoMode?.checked) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    }
+  }, { passive: false });
 
   // ===== Events =====
   navToggle?.addEventListener("click", () => {
