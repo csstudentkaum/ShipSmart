@@ -334,15 +334,17 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
       return ok;
     };
 
-    // — Submit handler (button click — more reliable than form submit on iOS WebKit) —
+    // — Submit handler (click + touchstart for iOS WebKit reliability) —
     const submitBtn = document.getElementById("submitBtn");
-    submitBtn?.addEventListener("click", () => {
+
+    const handleSubmit = (e) => {
+      if (e.cancelable) e.preventDefault(); // stop ghost click on iOS
 
       // Run full validation — stop here if anything fails
       if (!validateFeedback()) {
         const firstErr = feedbackForm.querySelector(".error:not(:empty)");
         if (firstErr) firstErr.scrollIntoView({ behavior: "smooth", block: "center" });
-        return; // hard stop — never reaches success below
+        return;
       }
 
       // ── Every required field is valid — show success modal ──
@@ -350,9 +352,12 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
       clrErr(firstNameErr, lastNameErr, emailErr, ratingErr, servicesErr, carrierPErr);
       if (fCharCount) fCharCount.textContent = "0 / " + MAX_CHARS + " characters";
 
-      if (fSuccess) fSuccess.hidden = false;   // show modal overlay
-      document.body.style.overflow = "hidden"; // prevent background scroll
-    });
+      if (fSuccess) fSuccess.hidden = false;
+      document.body.style.overflow = "hidden";
+    };
+
+    submitBtn?.addEventListener("click", handleSubmit);
+    submitBtn?.addEventListener("touchend", handleSubmit); // iOS fallback
 
     // — Reset handler —
     fResetBtn?.addEventListener("click", () => {

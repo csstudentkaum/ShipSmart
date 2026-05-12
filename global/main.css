@@ -981,6 +981,17 @@ cite{
   align-items: center;
   margin-top: 0;
 }
+@media(max-width: 480px){
+  .form-actions{
+    flex-direction: column;
+  }
+  .form-actions .btn-primary,
+  .form-actions .btn-ghost{
+    flex: unset;
+    width: 100%;          /* full-width on mobile = easy tap target */
+    min-height: 52px;
+  }
+}
 
 /* Input error state */
 .form-group.has-error input,
