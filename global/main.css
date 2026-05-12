@@ -55,7 +55,8 @@ a:hover{ text-decoration:underline; }
 
 @media (min-width: 981px){
   .container{
-    width: min(1300px, 96%);
+    width: 98%;
+    max-width: 1500px;
   }
 }
 
