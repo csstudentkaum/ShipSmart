@@ -156,10 +156,25 @@ a:hover{ text-decoration:underline; }
 .hero-grid{
   position:relative;
   z-index:1; /* keep content above blob */
-  display:grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  display:flex;
+  flex-direction:column;
   gap:22px;
-  align-items:start;
+}
+
+.hero-left,
+.hero-right{
+  width:100%;
+}
+
+.hero-right .illustration.card{
+  width:100%;
+  box-sizing:border-box;
+}
+
+.hero-right .hero-media img.hero-illus{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
 }
 
 .pill{

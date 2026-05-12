@@ -114,7 +114,7 @@ Purpose: ShipSmart Home Page — interactive landing page with hero section, tra
             </div>
 
             <div class="field inline">
-              <input type="checkbox" id="demoMode" name="demoMode" />
+              <input type="checkbox" id="demoMode" name="demoMode" checked />
               <label for="demoMode">Demo mode (show results on this page)</label>
             </div>
 
@@ -124,9 +124,44 @@ Purpose: ShipSmart Home Page — interactive landing page with hero section, tra
               Demo mode is useful for the assignment demo even without real carrier APIs.
             </p>
           </form>
+
+          <!-- Result area (JS demo) — shown under the track card -->
+          <div id="resultArea" class="result card card-inner" hidden>
+            <div class="result-head">
+              <h2 class="result-title">Shipment Status</h2>
+              <span id="statusBadge" class="badge">Loading</span>
+            </div>
+
+            <div class="result-grid">
+              <p><strong>Carrier:</strong> <span id="rCarrier">—</span></p>
+              <p><strong>Tracking #:</strong> <span id="rTracking">—</span></p>
+              <p><strong>ETA:</strong> <span id="rEta">—</span></p>
+              <p><strong>Last Update:</strong> <span id="rUpdate">—</span></p>
+            </div>
+
+            <!-- Timeline (ordered list required usage) -->
+            <ol class="timeline" aria-label="Shipment progress timeline">
+              <li class="step" data-step="created"><span class="step-dot"></span>Shipment Created</li>
+              <li class="step" data-step="picked"><span class="step-dot"></span>Picked Up</li>
+              <li class="step" data-step="transit"><span class="step-dot"></span>In Transit</li>
+              <li class="step" data-step="out"><span class="step-dot"></span>Out for Delivery</li>
+              <li class="step" data-step="delivered"><span class="step-dot"></span>Delivered</li>
+            </ol>
+
+            <div class="result-actions">
+              <button class="btn" type="button" id="newSearchBtn">New Search</button>
+              <a class="btn btn-ghost" href="pages/feedback.html">Leave Feedback</a>
+            </div>
+          </div>
+
+          <!-- Loading box -->
+          <div id="loadingBox" class="loading card" hidden>
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Checking shipment status…</span>
+          </div>
         </div>
 
-        <!-- Right: illustration + result panel -->
+        <!-- Picture card (below track + result) -->
         <div class="hero-right">
           <div class="illustration card">
             <div class="illus-top">
@@ -134,44 +169,8 @@ Purpose: ShipSmart Home Page — interactive landing page with hero section, tra
               <span class="chip chip-soft">Fast & Simple</span>
             </div>
 
-            <!-- ✅ FIXED: media wrapper so image fits perfectly -->
             <div class="hero-media">
               <img class="hero-illus" src="images/wherehouse pirbul boxes.svg" alt="Warehouse with boxes illustration" />
-            </div>
-
-            <!-- Result area (JS demo) -->
-            <div id="resultArea" class="result card-inner" hidden>
-              <div class="result-head">
-                <h2 class="result-title">Shipment Status</h2>
-                <span id="statusBadge" class="badge">Loading</span>
-              </div>
-
-              <div class="result-grid">
-                <p><strong>Carrier:</strong> <span id="rCarrier">—</span></p>
-                <p><strong>Tracking #:</strong> <span id="rTracking">—</span></p>
-                <p><strong>ETA:</strong> <span id="rEta">—</span></p>
-                <p><strong>Last Update:</strong> <span id="rUpdate">—</span></p>
-              </div>
-
-              <!-- Timeline (ordered list required usage) -->
-              <ol class="timeline" aria-label="Shipment progress timeline">
-                <li class="step" data-step="created"><span class="step-dot"></span>Shipment Created</li>
-                <li class="step" data-step="picked"><span class="step-dot"></span>Picked Up</li>
-                <li class="step" data-step="transit"><span class="step-dot"></span>In Transit</li>
-                <li class="step" data-step="out"><span class="step-dot"></span>Out for Delivery</li>
-                <li class="step" data-step="delivered"><span class="step-dot"></span>Delivered</li>
-              </ol>
-
-              <div class="result-actions">
-                <button class="btn" type="button" id="newSearchBtn">New Search</button>
-                <a class="btn btn-ghost" href="pages/feedback.html">Leave Feedback</a>
-              </div>
-            </div>
-
-            <!-- Loading box -->
-            <div id="loadingBox" class="loading" hidden>
-              <span class="spinner" aria-hidden="true"></span>
-              <span>Checking shipment status…</span>
             </div>
           </div>
         </div>

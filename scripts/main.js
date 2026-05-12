@@ -139,6 +139,21 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
     showResult(true);
   };
 
+  // ===== Demo-mode checkbox: disable Track Now button when unchecked =====
+  const trackBtn = document.getElementById("trackBtn");
+
+  const syncTrackBtn = () => {
+    if (!trackBtn || !demoMode) return;
+    const enabled = demoMode.checked;
+    trackBtn.disabled = !enabled;
+    trackBtn.style.opacity = enabled ? "" : "0.45";
+    trackBtn.style.cursor = enabled ? "" : "not-allowed";
+  };
+
+  demoMode?.addEventListener("change", syncTrackBtn);
+  // Run once on load (checkbox starts checked, so button starts enabled)
+  syncTrackBtn();
+
   // ===== Events =====
   navToggle?.addEventListener("click", () => {
     const opened = document.body.classList.toggle("menu-open");
@@ -147,6 +162,8 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
 
   trackForm?.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (demoMode && !demoMode.checked) return;  // guard: button should already be disabled
 
     if (!validate()) {
       return;
