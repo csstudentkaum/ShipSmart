@@ -39,7 +39,7 @@ jobs:
         uses: ionos-deploy-now/project-action@v1
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           deployment-id: ${{ matrix.deployment-id }}
@@ -50,7 +50,7 @@ jobs:
         uses: ionos-deploy-now/artifact-action@v1
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           version: ${{ inputs.version }}
@@ -61,7 +61,7 @@ jobs:
         id: deployment
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           deployment-id: ${{ matrix.deployment-id }}
@@ -90,7 +90,7 @@ jobs:
         uses: ionos-deploy-now/deploy-to-ionos-action@v2
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           deployment-id: ${{ matrix.deployment-id }}
@@ -103,7 +103,7 @@ jobs:
         uses: ionos-deploy-now/project-action@v1
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           deployment-id: ${{ matrix.deployment-id }}
@@ -119,7 +119,7 @@ jobs:
         uses: ionos-deploy-now/project-action@v1
         with:
           api-key: ${{ secrets.IONOS_API_KEY }}
-          service-host: api.ionos.space
+          service-host: api-us.ionos.space
           project-id: ${{ inputs.project-id }}
           branch-id: ${{ inputs.branch-id }}
           action: set-deployments-finished
