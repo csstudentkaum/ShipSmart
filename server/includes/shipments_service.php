@@ -4,6 +4,7 @@
  */
 
 require_once __DIR__ . '/trackingmore_sdk.php';
+require_once __DIR__ . '/../db_config.php';
 require_once __DIR__ . '/shipment_validation.php';
 require_once __DIR__ . '/shipment_meta_store.php';
 
@@ -169,6 +170,58 @@ function shipments_save_local_meta(
     }
 }
 
+
+/**
+ * Insert or update a shipment in the local DB after TrackingMore success.
+ */
+function shipments_insert_local(array $input): void
+{
+    global $conn;
+    if (!$conn) return;
+
+    $tracking  = trim((string) ($input['tracking_number'] ?? ''));
+    $carrier   = strtolower(trim((string) ($input['carrier'] ?? $input['courier_code'] ?? '')));
+    $origin    = trim((string) ($input['origin_city'] ?? ''));
+    $dest      = trim((string) ($input['destination_city'] ?? ''));
+    $weight    = trim((string) ($input['weight_kg'] ?? ''));
+    $eta       = trim((string) ($input['estimated_delivery'] ?? ''));
+    $category  = trim((string) ($input['category'] ?? 'standard'));
+    $status    = 'created';
+    $now       = date('Y-m-d H:i:s');
+
+    // Normalize carrier — local DB only accepts aramex/dhl/fedex/smsa
+    $carrierMap = ['smsa-express' => 'smsa', 'ups' => 'aramex', 'usps' => 'aramex'];
+    if (isset($carrierMap[$carrier])) $carrier = $carrierMap[$carrier];
+    if (!in_array($carrier, ['aramex','dhl','fedex','smsa'], true)) $carrier = 'aramex';
+
+    if (!in_array($category, ['standard','express','freight'], true)) $category = 'standard';
+    if ($origin === '') $origin = 'Unknown';
+    if ($dest   === '') $dest   = 'Unknown';
+    if ($weight === '' || !is_numeric($weight)) $weight = '0.00';
+    if ($eta    === '') $eta    = date('Y-m-d', strtotime('+7 days'));
+
+    $stmt = $conn->prepare(
+        'INSERT INTO shipments
+            (tracking_number, carrier, origin_city, destination_city, status, category, weight_kg, estimated_delivery, last_updated)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+            carrier           = VALUES(carrier),
+            origin_city       = VALUES(origin_city),
+            destination_city  = VALUES(destination_city),
+            category          = VALUES(category),
+            weight_kg         = VALUES(weight_kg),
+            estimated_delivery= VALUES(estimated_delivery),
+            last_updated      = VALUES(last_updated)'
+    );
+    if (!$stmt) return;
+    $stmt->bind_param('sssssssss',
+        $tracking, $carrier, $origin, $dest,
+        $status, $category, $weight, $eta, $now
+    );
+    $stmt->execute();
+    $stmt->close();
+}
+
 /**
  * @return array{ok: bool, message: string, api_code?: int}
  */
@@ -186,6 +239,7 @@ function shipments_add(array $post): array
         $updateParams = $validated['update_params'] ?? [];
 
         if ($code === 200) {
+            shipments_insert_local(array_merge($post, $validated['params']));
             $message = 'Shipment added and registered with TrackingMore.';
             if ($updateParams !== []) {
                 $id = shipments_resolve_tracking_id($sdk, $validated['params'], $res);
@@ -207,6 +261,7 @@ function shipments_add(array $post): array
         }
 
         if ($code === 4101) {
+            shipments_insert_local(array_merge($post, $validated['params']));
             $message = 'Tracking number already exists in your TrackingMore account.';
             if ($updateParams !== []) {
                 $id = shipments_resolve_tracking_id($sdk, $validated['params'], $res);

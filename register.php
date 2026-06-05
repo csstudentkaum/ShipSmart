@@ -414,7 +414,7 @@
     btn.disabled    = true;
     btn.textContent = "Creating account…";
 
-    fetch("../api/register.php", { method: "POST", body: new FormData(form) })
+    fetch("api/register.php", { method: "POST", body: new FormData(form) })
       .then(r => r.json())
       .then(data => {
         if (data.success) {

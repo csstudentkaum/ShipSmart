@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // ── Include database connection and email helper ──
 require_once __DIR__ . '/db_config.php';
 require_once __DIR__ . '/includes/mailer.php';
+require_once __DIR__ . '/includes/db_log.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$feedbackUserId = !empty($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
 
 // ── Read & sanitize input ──
 $fullName = trim($_POST['fullName']  ?? '');
@@ -87,18 +93,35 @@ if (!empty($errors)) {
 }
 
 // ── Insert into database using prepared statement ──
-$stmt = $conn->prepare(
-    'INSERT INTO feedback (full_name, email, rating, services, carrier, comments)
-     VALUES (?, ?, ?, ?, ?, ?)'
-);
-
-if (!$stmt) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Database prepare failed: ' . $conn->error]);
-    exit;
+$hasUserCol = false;
+$colCheck   = $conn->query("SHOW COLUMNS FROM feedback LIKE 'user_id'");
+if ($colCheck && $colCheck->num_rows > 0) {
+    $hasUserCol = true;
 }
 
-$stmt->bind_param('ssssss', $fullName, $email, $rating, $services, $carrier, $comments);
+if ($hasUserCol) {
+    $stmt = $conn->prepare(
+        'INSERT INTO feedback (user_id, full_name, email, rating, services, carrier, comments)
+         VALUES (?, ?, ?, ?, ?, ?, ?)'
+    );
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Database prepare failed: ' . $conn->error]);
+        exit;
+    }
+    $stmt->bind_param('issssss', $feedbackUserId, $fullName, $email, $rating, $services, $carrier, $comments);
+} else {
+    $stmt = $conn->prepare(
+        'INSERT INTO feedback (full_name, email, rating, services, carrier, comments)
+         VALUES (?, ?, ?, ?, ?, ?)'
+    );
+    if (!$stmt) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Database prepare failed: ' . $conn->error]);
+        exit;
+    }
+    $stmt->bind_param('ssssss', $fullName, $email, $rating, $services, $carrier, $comments);
+}
 
 if (!$stmt->execute()) {
     http_response_code(500);
@@ -110,7 +133,6 @@ if (!$stmt->execute()) {
 
 $newId = $stmt->insert_id;
 $stmt->close();
-$conn->close();
 
 // ── Send confirmation email to the user ──
 $ratingLabel    = ucfirst($rating);   // e.g. "Good", "Average", "Poor"
@@ -160,6 +182,19 @@ HTML;
 
 $emailHtml  = buildEmailTemplate("Thank you for your feedback!", $emailBody);
 $emailSent  = sendMail($email, $fullName, "Thank you for your feedback, {$fullName}!", $emailHtml);
+
+logEmail(
+    $conn,
+    $email,
+    "Thank you for your feedback, {$fullName}!",
+    'feedback_confirmation',
+    $emailSent ? 'sent' : 'failed',
+    $feedbackUserId,
+    'feedback',
+    $newId
+);
+
+$conn->close();
 
 // ── Return response (include emailSent status so frontend can show a note) ──
 echo json_encode([

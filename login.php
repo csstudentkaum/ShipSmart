@@ -505,7 +505,7 @@
     btn.disabled    = true;
     btn.textContent = "Signing in…";
 
-    fetch("../api/login.php", { method: "POST", body: new FormData(form) })
+    fetch("api/login.php", { method: "POST", body: new FormData(form) })
       .then(r => r.json())
       .then(data => {
         if (data.success) {

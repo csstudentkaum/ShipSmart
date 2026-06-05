@@ -14,6 +14,63 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 require_once __DIR__ . '/../server/includes/db.php';
 
+// ── Helper: save a TrackingMore result into local shipments table ─────────────
+function search_save_to_local_db(mysqli $conn, array $item): void
+{
+    $tracking = trim((string) ($item['tracking_number'] ?? ''));
+    $carrier  = strtolower(trim((string) ($item['carrier'] ?? '')));
+    $origin   = trim((string) ($item['origin_city'] ?? ''));
+    $dest     = trim((string) ($item['destination_city'] ?? ''));
+    $status   = trim((string) ($item['status'] ?? 'created'));
+    $category = trim((string) ($item['category'] ?? 'standard'));
+    $weight   = trim((string) ($item['weight_kg'] ?? '0'));
+    $eta      = trim((string) ($item['estimated_delivery'] ?? ''));
+    $now      = date('Y-m-d H:i:s');
+
+    if ($tracking === '') return;
+
+    // Normalize carrier to local ENUM values
+    $carrierMap = ['smsa-express' => 'smsa', 'ups' => 'aramex', 'usps' => 'aramex',
+                   'fedex-international' => 'fedex', 'dhl-express' => 'dhl'];
+    if (isset($carrierMap[$carrier])) $carrier = $carrierMap[$carrier];
+    if (!in_array($carrier, ['aramex','dhl','fedex','smsa'], true)) $carrier = 'aramex';
+
+    // Normalize status to local ENUM values
+    $statusMap = ['delivered' => 'delivered', 'transit' => 'in_transit',
+                  'in_transit' => 'in_transit', 'pickup' => 'picked_up',
+                  'picked_up' => 'picked_up', 'undelivered' => 'out_for_delivery',
+                  'out_for_delivery' => 'out_for_delivery', 'pending' => 'created',
+                  'created' => 'created', 'notfound' => 'created'];
+    $statusNorm = $statusMap[strtolower($status)] ?? 'created';
+
+    if (!in_array($category, ['standard','express','freight'], true)) $category = 'standard';
+    if ($origin  === '') $origin  = 'Unknown';
+    if ($dest    === '') $dest    = 'Unknown';
+    if (!is_numeric($weight) || (float)$weight <= 0) $weight = '0.00';
+    if ($eta === '' || strtotime($eta) === false) $eta = date('Y-m-d', strtotime('+7 days'));
+
+    $stmt = $conn->prepare(
+        'INSERT INTO shipments
+            (tracking_number, carrier, origin_city, destination_city, status, category, weight_kg, estimated_delivery, last_updated)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+            status            = VALUES(status),
+            origin_city       = VALUES(origin_city),
+            destination_city  = VALUES(destination_city),
+            weight_kg         = VALUES(weight_kg),
+            estimated_delivery= VALUES(estimated_delivery),
+            last_updated      = VALUES(last_updated)'
+    );
+    if (!$stmt) return;
+    $stmt->bind_param('sssssssss',
+        $tracking, $carrier, $origin, $dest,
+        $statusNorm, $category, $weight, $eta, $now
+    );
+    $stmt->execute();
+    $stmt->close();
+}
+
+
 // If TRACKINGMORE_API_KEY is defined in environment or in server/config, use the SDK
 $tmApiKey = getenv('TRACKINGMORE_API_KEY') ?: (file_exists(__DIR__ . '/../server/config.php') ? include __DIR__ . '/../server/config.php' : '');
 
@@ -80,7 +137,8 @@ $looksLikeTracking = $q !== '' && preg_match('/^[A-Z0-9\-]{8,40}$/i', str_replac
 
 // If client explicitly requests TrackingMore or the query looks like a tracking number,
 // prefer the TrackingMore API (requires server/config.php or env var to provide API key).
-$useTrackingMore = (!empty($_GET['source']) && $_GET['source'] === 'trackingmore') || ($looksLikeTracking && !empty($tmApiKey));
+// Local DB is always the default; TrackingMore only when explicitly requested
+$useTrackingMore = !empty($_GET['source']) && $_GET['source'] === 'trackingmore';
 
 if ($useTrackingMore && !empty($tmApiKey)) {
     // Load the bundled TrackingMore SDK in dependency order:
@@ -246,6 +304,13 @@ if ($useTrackingMore && !empty($tmApiKey)) {
             $filtered = array_values($filtered);
         }
 
+        // Save each TrackingMore result to local DB
+        if ($conn && !empty($out)) {
+            foreach ($out as $tmItem) {
+                search_save_to_local_db($conn, $tmItem);
+            }
+        }
+
         echo json_encode($filtered);
         exit;
     } catch (\TrackingMore\TrackingMoreException $e) {
@@ -282,4 +347,23 @@ while ($row = $result->fetch_assoc()) {
 echo json_encode($shipments);
 
 $stmt->close();
+
+// ── Log this search to tracking_queries ──────────────────────
+if ($q !== '' && $looksLikeTracking) {
+    if (session_status() === PHP_SESSION_NONE) session_start();
+    $logUserId  = !empty($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
+    $logCarrier = $carrier !== '' ? $carrier : 'aramex'; // default if not filtered
+    $foundInDb  = !empty($shipments) ? 1 : 0;
+    $logIp      = $_SERVER['REMOTE_ADDR'] ?? null;
+    $logStmt    = $conn->prepare(
+        'INSERT INTO tracking_queries (user_id, tracking_number, carrier, found_in_db, ip_address)
+         VALUES (?, ?, ?, ?, ?)'
+    );
+    if ($logStmt) {
+        $logStmt->bind_param('issis', $logUserId, $q, $logCarrier, $foundInDb, $logIp);
+        $logStmt->execute();
+        $logStmt->close();
+    }
+}
+
 $conn->close();

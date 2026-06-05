@@ -29,7 +29,7 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
   // Show Dashboard nav item for admins when page is static HTML
   (function revealAdminNav(){
     try{
-      fetch('/api/whoami.php', { credentials: 'include' })
+      fetch('/403/api/whoami.php', { credentials: 'include' })
         .then(r => r.json())
         .then(j => {
           if (j && j.role === 'admin') {

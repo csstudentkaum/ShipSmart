@@ -202,7 +202,7 @@ Purpose: ShipSmart Feedback Page — user feedback form with client-side validat
 
             <!-- Submit & Reset -->
             <div class="form-actions">
-              <button class="btn btn-primary" type="button" id="submitBtn">Submit Feedback</button>
+              <button class="btn btn-primary" type="submit" id="submitBtn">Submit Feedback</button>
               <button class="btn btn-ghost" type="reset" id="resetBtn">Clear Form</button>
             </div>
           </form>
@@ -263,5 +263,68 @@ Purpose: ShipSmart Feedback Page — user feedback form with client-side validat
 
     <!-- External JS (includes feedback validation) -->
     <script src="../scripts/main.js?v=3"></script>
+  <script>
+  // Runs after main.js — replaces the submit button listener with one that
+  // actually POSTs to process_feedback.php via fetch.
+  window.addEventListener("load", function () {
+    var submitBtn   = document.getElementById("submitBtn");
+    var feedbackForm = document.getElementById("feedbackForm");
+    var fSuccess    = document.getElementById("feedbackSuccess");
+    if (!submitBtn || !feedbackForm) return;
+
+    // Remove all existing listeners by cloning the button
+    var newBtn = submitBtn.cloneNode(true);
+    submitBtn.parentNode.replaceChild(newBtn, submitBtn);
+
+    newBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      // Basic required field check
+      var firstName = (document.getElementById("firstName") || {}).value || "";
+      var lastName  = (document.getElementById("lastName")  || {}).value || "";
+      var email     = (document.getElementById("email")     || {}).value || "";
+      var rating    = feedbackForm.querySelector("input[name='rating']:checked");
+      var services  = feedbackForm.querySelectorAll("input[name='services[]']:checked");
+      var carrier   = (document.getElementById("preferredCarrier") || {}).value || "";
+
+      firstName = firstName.trim();
+      lastName  = lastName.trim();
+      email     = email.trim();
+
+      if (!firstName || !lastName || !email || !rating || services.length === 0 || !carrier) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      // Build FormData and add fullName field PHP expects
+      var fd = new FormData(feedbackForm);
+      fd.set("fullName", firstName + " " + lastName);
+
+      newBtn.disabled    = true;
+      newBtn.textContent = "Submitting…";
+
+      fetch("/403/server/process_feedback.php", { method: "POST", body: fd })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.success) {
+            if (fSuccess) {
+              fSuccess.hidden        = false;
+              fSuccess.style.display = "flex";
+              fSuccess.style.position = "fixed";
+              fSuccess.style.inset   = "0";
+              fSuccess.style.zIndex  = "10000";
+            }
+          } else {
+            alert(data.message || "Submission failed. Please try again.");
+          }
+        })
+        .catch(function() { alert("Network error. Please try again."); })
+        .finally(function() {
+          newBtn.disabled    = false;
+          newBtn.textContent = "Submit Feedback";
+        });
+    });
+  });
+  </script>
   </body>
   </html>

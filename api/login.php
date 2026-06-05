@@ -17,15 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Try to include optional helpers (DB/auth). When running locally without
-// a database we still want the test accounts below to work — avoid fatal
-// errors if the files are missing.
-$dbPath = __DIR__ . '/../includes/db.php';
-$authPath = __DIR__ . '/../includes/auth.php';
+// FIX #1: Corrected paths — api/ is one level below root, server/ is a sibling of api/
+$dbPath   = __DIR__ . '/../server/includes/db.php';
+$authPath = __DIR__ . '/../server/includes/auth.php';
+
 if (file_exists($dbPath)) {
     require_once $dbPath;
 } else {
-    // Leave $conn undefined/null — code below will use test accounts first.
     $conn = null;
 }
 if (file_exists($authPath)) {
@@ -51,15 +49,17 @@ if (!empty($errors)) {
 }
 
 // ── TEST ACCOUNTS (no DB needed) ─────────────────────────────
-// Remove this block once the database is connected.
+// FIX #2: Hashes replaced — both accounts use password: "password"
+// (same hash used in schema.sql and db_install.php seeder)
+// Remove this block once you no longer need a DB-less fallback.
 $testAccounts = [
     'admin@shipsmart.com' => [
-        'id' => 1, 'full_name' => 'Admin', 'role' => 'admin',
-        'hash' => '$2y$10$ys.DLS9GjBV/SJrrHgVKruLfy27oCrFJlcAJd2u.aHA6wBYf8qE5G',
+        'id' => 1, 'full_name' => 'ShipSmart Admin', 'role' => 'admin',
+        'hash' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
     ],
     'user@shipsmart.com' => [
-        'id' => 2, 'full_name' => 'Sara Ahmed', 'role' => 'user',
-        'hash' => '$2y$10$VM0l3pZAG34tIcX55T71Vu4qLq6uQ2GHf/rjwHyAi3PJ4.2tRDGlu',
+        'id' => 2, 'full_name' => 'Demo User', 'role' => 'user',
+        'hash' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
     ],
 ];
 
@@ -76,12 +76,22 @@ if (isset($testAccounts[strtolower($email)])) {
     $_SESSION['user_id']   = $t['id'];
     $_SESSION['full_name'] = $t['full_name'];
     $_SESSION['role']      = $t['role'];
-    echo json_encode(['success' => true, 'role' => $t['role'], 'redirect' => 'profile.php']);
+    $redirect = $t['role'] === 'admin' ? 'admin/dashboard.php' : 'index.html';
+    echo json_encode(['success' => true, 'role' => $t['role'], 'redirect' => $redirect]);
     exit;
 }
 // ── END TEST ACCOUNTS ─────────────────────────────────────────
 
-// Fetch user
+// No DB connection available and email not in test accounts
+if (!$conn) {
+    http_response_code(503);
+    echo json_encode(['success' => false, 'errors' => [
+        'general' => 'Database unavailable. Please try again later.'
+    ]]);
+    exit;
+}
+
+// Fetch user from DB
 $stmt = $conn->prepare(
     'SELECT id, full_name, password_hash, role FROM users WHERE email = ?'
 );

@@ -17,9 +17,29 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 require_once __DIR__ . '/../server/db_config.php';
 require_once __DIR__ . '/../server/includes/mailer.php';
+require_once __DIR__ . '/../server/includes/db_log.php';
 
-// ── Upload folder (relative to this file: api/ → project root → uploads/documents/) ──
 define('UPLOAD_DIR', __DIR__ . '/../uploads/documents/');
+
+$missingTables = shipsmart_required_tables_ok($conn);
+if (!empty($missingTables)) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database setup incomplete. Missing table(s): ' . implode(', ', $missingTables)
+            . '. Open /server/setup.php once or import server/schema.sql in phpMyAdmin.',
+    ]);
+    exit;
+}
+
+if (!shipsmart_ensure_upload_dir(UPLOAD_DIR)) {
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Upload folder is missing or not writable: uploads/documents/',
+    ]);
+    exit;
+}
 
 // ── Limits & whitelists ──
 define('MAX_SIZE_BYTES', 2 * 1024 * 1024); // 2 MB
@@ -108,26 +128,43 @@ if (!move_uploaded_file($file['tmp_name'], $destination)) {
     exit;
 }
 
+// Logged-in uploader (set when login/session is implemented)
+$userId = null;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!empty($_SESSION['user_id'])) {
+    $userId = (int) $_SESSION['user_id'];
+}
+
+$shipmentId = findShipmentId($conn, $trackingNumber, $carrier);
+
 // ── Store metadata in the database ──
-// Types: s=string, i=integer
 $stmt = $conn->prepare(
     'INSERT INTO shipment_documents
-       (tracking_number, carrier, doc_type, original_name, saved_name, file_size, mime_type)
-     VALUES (?, ?, ?, ?, ?, ?, ?)'
+       (user_id, shipment_id, uploader_email, tracking_number, carrier, doc_type, original_name, saved_name, file_size, mime_type)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
 );
 
 if (!$stmt) {
-    // File saved but DB insert failed — remove the orphaned file
     unlink($destination);
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Database error. Please try again.']);
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database error: ' . $conn->error,
+    ]);
     exit;
 }
 
 $originalName = $file['name'];
 $fileSize     = $file['size'];
 
-$stmt->bind_param('sssssis',
+$uploaderEmailDb = $uploaderEmail !== '' ? $uploaderEmail : null;
+
+$stmt->bind_param('iissssssis',
+    $userId,
+    $shipmentId,
+    $uploaderEmailDb,
     $trackingNumber,
     $carrier,
     $docType,
@@ -144,8 +181,8 @@ if (!$stmt->execute()) {
     exit;
 }
 
+$docId = $conn->insert_id;
 $stmt->close();
-$conn->close();
 
 // ── Send upload confirmation email if address was provided ──
 $emailSent  = false;
@@ -216,7 +253,22 @@ HTML;
     if (!$emailSent) {
         $emailError = 'Document saved, but confirmation email could not be sent.';
     }
+
+    logEmail(
+        $conn,
+        $uploaderEmail,
+        "Upload Confirmation — Tracking #{$trackingNumber}",
+        'upload_confirmation',
+        $emailSent ? 'sent' : 'failed',
+        $userId,
+        'shipment_documents',
+        $docId
+    );
 }
+
+logAudit($conn, 'document_upload', $userId, 'shipment_documents', $docId, $trackingNumber, $_SERVER['REMOTE_ADDR'] ?? null);
+
+$conn->close();
 
 // ── Success response ──
 echo json_encode([
