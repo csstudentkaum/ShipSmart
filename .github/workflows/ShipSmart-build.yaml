@@ -27,17 +27,8 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.2"
-          tools: composer:v2
-
-      - name: Install TrackingMore SDK (Composer)
-        run: |
-          if [ -f trackingmore/trackingmore-sdk-php/composer.json ]; then
-            composer install --no-dev --optimize-autoloader --working-dir=trackingmore/trackingmore-sdk-php
-          fi
+      # TrackingMore SDK is loaded manually in server/includes/trackingmore_sdk.php
+      # (no Composer/vendor required at deploy time)
 
       # Please do not touch the following action
       - name: Store deployment content
