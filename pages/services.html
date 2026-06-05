@@ -4,7 +4,7 @@ ID: 2207221
 Section: CPCS403
 Date: 2026-03-11
 File: pages/services.html
-Purpose: ShipSmart Services Page — 4 core services for the logistics platform
+Purpose: ShipSmart Services Page — 4 core services + platform demo video
 -->
 
 <!DOCTYPE html>
@@ -13,13 +13,98 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShipSmart | Services</title>
-
-  <!-- External CSS -->
   <link rel="stylesheet" href="../global/main.css">
   <link rel="stylesheet" href="../global/print.css" media="print">
-</head>
+  <style>
+    /* ── Platform description block ── */
+    .platform-desc{
+      margin-top: 40px;
+      padding: 36px;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(700px 300px at 80% 50%, rgba(255,138,31,0.07), transparent 60%),
+        radial-gradient(600px 300px at 10% 50%, rgba(123,43,106,0.07), transparent 60%),
+        var(--soft);
+      border: 1px solid var(--border);
+    }
+    .platform-desc h3{
+      margin: 0 0 12px;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+    .platform-desc p{
+      margin: 0 0 16px;
+      color: #2b2b2b;
+      line-height: 1.7;
+      max-width: 72ch;
+    }
+    .platform-desc ul{
+      padding-left: 0;
+      list-style: none;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .platform-desc ul li{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      color: #333;
+      font-size: 0.92rem;
+    }
+    .platform-desc ul li::before{
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--primary);
+      flex-shrink: 0;
+    }
+    @media(max-width:640px){
+      .platform-desc ul{ grid-template-columns: 1fr; }
+      .platform-desc{ padding: 24px; }
+    }
 
+    /* ── Section divider ── */
+    .section-divider{
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── Video section label ── */
+    .video-label{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: rgba(123,43,106,0.08);
+      border: 1px solid rgba(123,43,106,0.18);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .video-label-dot{
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%{ opacity:0.4; transform:scale(0.7); }
+    }
+  </style>
+</head>
 <body>
+
   <!-- ===================== HEADER ===================== -->
   <header class="site-header">
     <div class="container header-inner">
@@ -27,28 +112,27 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
         <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
         <span class="brand-name">ShipSmart</span>
       </a>
-
       <nav class="nav" aria-label="Main navigation">
         <ul class="nav-list">
           <li><a class="nav-link" href="../index.html">Home</a></li>
-          <li><a class="nav-link is-active" href="services.html">Services</a></li>
-          <li><a class="nav-link" href="schedule.html">Schedule</a></li>
+          <li><a class="nav-link is-active" href="services.html">About</a></li>
+          <li><a class="nav-link" href=" schedule.php">Schedule</a></li>
           <li><a class="nav-link" href="search.html">Search</a></li>
           <li><a class="nav-link" href="upload.html">Upload</a></li>
           <li><a class="nav-link" href="video.html">Video</a></li>
           <li><a class="nav-link" href="feedback.html">Feedback</a></li>
+          <li><a class="nav-link" href="../Profile.php">Profile</a></li>
+          <li id="nav-dashboard" style="display:none"><a class="nav-link" href="../admin/dashboard.php" style="color:var(--accent);font-weight:900">Dashboard</a></li>
         </ul>
       </nav>
-
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-        ☰
-      </button>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </header>
 
   <!-- ===================== MAIN ===================== -->
   <main>
-    <!-- ===================== PAGE HEADING ===================== -->
+
+    <!-- Page heading -->
     <section class="section page-hero">
       <div class="container">
         <h1>Our Services</h1>
@@ -60,11 +144,10 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
     </section>
 
     <!-- ===================== SERVICES GRID ===================== -->
-    <section class="section">
+    <section class="section" style="padding-top:0">
       <div class="container">
         <h2>What We Offer</h2>
         <div class="services-grid">
-          <!-- Service 1: Shipment Tracking -->
           <article class="card service-card">
             <div class="service-icon" aria-hidden="true">📦</div>
             <h3>Shipment Tracking</h3>
@@ -72,7 +155,6 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
             <p class="small muted">Get status updates, ETAs, and a visual timeline for every package.</p>
           </article>
 
-          <!-- Service 2: Delivery Scheduling -->
           <article class="card service-card">
             <div class="service-icon" aria-hidden="true">📅</div>
             <h3>Delivery Scheduling</h3>
@@ -80,7 +162,6 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
             <p class="small muted">View pickup and delivery windows across all supported carriers in one place.</p>
           </article>
 
-          <!-- Service 3: Real-Time Notifications -->
           <article class="card service-card">
             <div class="service-icon" aria-hidden="true">🔔</div>
             <h3>Real-Time Notifications</h3>
@@ -88,7 +169,6 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
             <p class="small muted">Stay informed without repeatedly checking tracking pages.</p>
           </article>
 
-          <!-- Service 4: Multi-Carrier Integration -->
           <article class="card service-card">
             <div class="service-icon" aria-hidden="true">🔗</div>
             <h3>Multi-Carrier Integration</h3>
@@ -97,7 +177,7 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
           </article>
         </div>
 
-        <!-- Benefits summary -->
+        <!-- Benefits -->
         <div class="benefits-grid">
           <div>
             <h4>Why Choose ShipSmart</h4>
@@ -120,33 +200,91 @@ Purpose: ShipSmart Services Page — 4 core services for the logistics platform
         </div>
       </div>
     </section>
+
+    <hr class="section-divider">
+
+    <!-- ===================== PLATFORM DEMO VIDEO ===================== -->
+    <section class="section">
+      <div class="container">
+
+        <div class="video-label">
+          <span class="video-label-dot"></span>
+          Platform Demo
+        </div>
+
+        <div class="section-head" style="margin-bottom:24px">
+          <div>
+            <h2 style="margin:0 0 6px">See ShipSmart in Action</h2>
+            <p class="muted">Watch how multi-carrier tracking works in one simple dashboard.</p>
+          </div>
+        </div>
+
+        <!-- Video player -->
+        <div class="video-wrap card">
+          <video
+            src="../videos/ShipSmart.mp4"
+            controls
+            width="100%"
+            preload="metadata"
+          >
+            <p>Your browser does not support the video element.
+              <a href="../videos/ShipSmart.mp4">Download the video</a> instead.
+            </p>
+          </video>
+        </div>
+
+        <!-- Platform description -->
+        <div class="platform-desc">
+          <h3>What ShipSmart Does</h3>
+          <p>
+            ShipSmart is a universal shipment tracker that lets you follow packages from Aramex, DHL,
+            FedEx, and SMSA in one place. Enter a tracking number, select the carrier, and get status
+            updates, an ETA, and a visual progress timeline. No more juggling multiple carrier websites.
+          </p>
+          <ul>
+            <li>Unified tracking across all supported carriers</li>
+            <li>Clear step-by-step progress timeline</li>
+            <li>Weekly pickup and delivery schedules</li>
+            <li>Simple feedback form to help us improve</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="footer-brand">
-          <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
-          <strong>ShipSmart</strong>
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+            <strong>ShipSmart</strong>
+          </div>
+          <p class="muted">Universal Shipment Tracker &mdash; a course project for CPCS 403.</p>
+          <p class="small">Tracking smarter, one parcel at a time.</p>
         </div>
-        <p class="muted small">
-          Universal Shipment Tracker — a course project for CPCS 403.
-        </p>
-        <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
+        <div>
+          <p class="footer-title">Pages</p>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="services.html">About</a></li>
+            <li><a href=" schedule.php">Schedule</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="upload.html">Upload</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
       </div>
-
-      <div>
-        <p class="footer-title">Pages</p>
-        <ul class="footer-links">
-          <li><a href="services.html">Services</a></li>
-          <li><a href="schedule.html">Schedule</a></li>
-          <li><a href="video.html">Video</a></li>
-          <li><a href="feedback.html">Feedback</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ShipSmart &mdash; King Abdulaziz University, Jeddah</p>
+        <span class="footer-badge">
+          <span class="footer-badge-dot"></span>CPCS 403 Project
+        </span>
       </div>
-
-
     </div>
   </footer>
 

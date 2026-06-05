@@ -32,35 +32,37 @@ Purpose: ShipSmart Feedback Page — user feedback form with client-side validat
     <link rel="stylesheet" href="../global/main.css?v=3">
     <!-- Print CSS -->
     <link rel="stylesheet" href="../global/print.css" media="print">
+    
   </head>
 
   <body>
     <!-- ===================== HEADER (Semantic Tag) ===================== -->
-    <header class="site-header">
-      <div class="container header-inner">
-        <!-- Brand -->
-        <a class="brand" href="../index.html" aria-label="ShipSmart Home">
-          <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
-          <span class="brand-name">ShipSmart</span>
-        </a>
+      <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../index.html" aria-label="ShipSmart Home">
+        <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+        <span class="brand-name">ShipSmart</span>
+      </a>
 
-        <!-- Navigation (consistent across pages) -->
-        <nav class="nav" aria-label="Main navigation">
-          <ul class="nav-list">
-            <li><a class="nav-link" href="../index.html">Home</a></li>
-            <li><a class="nav-link" href="services.html">Services</a></li>
-            <li><a class="nav-link" href="schedule.html">Schedule</a></li>
-            <li><a class="nav-link" href="video.html">Video</a></li>
-            <li><a class="nav-link is-active" href="feedback.html">Feedback</a></li>
-          </ul>
-        </nav>
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a class="nav-link" href="../index.html">Home</a></li>
+          <li><a class="nav-link" href="services.html">About</a></li>
+          <li><a class="nav-link" href=" schedule.php">Schedule</a></li>
+          <li><a class="nav-link" href="search.html">Search</a></li>
+          <li><a class="nav-link" href="upload.html">Upload</a></li>
+          <li><a class="nav-link" href="video.html">Video</a></li>
+          <li><a class="nav-link is-active" href="feedback.html">Feedback</a></li>
+          <li><a class="nav-link" href="../Profile.php">Profile</a></li>
+          <li id="nav-dashboard" style="display:none"><a class="nav-link" href="../admin/dashboard.php" style="color:var(--accent);font-weight:900">Dashboard</a></li>
+        </ul>
+      </nav>
 
-        <!-- Mobile toggle -->
-        <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-          ☰
-        </button>
-      </div>
-    </header>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        ☰
+      </button>
+    </div>
+  </header>
 
     <!-- ===================== MAIN ===================== -->
     <main>
@@ -222,32 +224,42 @@ Purpose: ShipSmart Feedback Page — user feedback form with client-side validat
       </section>
     </main>
 
-    <!-- ===================== FOOTER (Semantic Tag) ===================== -->
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
-            <strong>ShipSmart</strong>
-          </div>
-          <p class="muted small">
-            Universal Shipment Tracker — a course project for CPCS 403.
-          </p>
-          <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
-        </div>
 
-        <div>
-          <p class="footer-title">Pages</p>
-          <ul class="footer-links">
-            <li><a href="services.html">Services</a></li>
-            <li><a href="schedule.html">Schedule</a></li>
-            <li><a href="video.html">Video</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-          </ul>
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+          <strong>ShipSmart</strong>
         </div>
-
+        <p class="muted">Universal Shipment Tracker &mdash; a course project for CPCS 403.</p>
+        <p class="small">Tracking smarter, one parcel at a time.</p>
       </div>
-    </footer>
+
+      <div>
+        <p class="footer-title">Pages</p>
+         <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="services.html">About</a></li>
+          <li><a href=" schedule.php">Schedule</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="upload.html">Upload</a></li>
+          <li><a href="video.html">Video</a></li>
+          <li><a href="feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShipSmart &mdash; King Abdulaziz University, Jeddah</p>
+      <span class="footer-badge">
+        <span class="footer-badge-dot"></span>CPCS 403 Project
+      </span>
+    </div>
+  </div>
+</footer>
 
     <!-- External JS (includes feedback validation) -->
     <script src="../scripts/main.js?v=3"></script>

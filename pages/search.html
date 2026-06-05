@@ -12,70 +12,77 @@ Purpose: ShipSmart Search Page — live shipment search and filtering
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShipSmart | Search Shipments</title>
-
   <link rel="stylesheet" href="../global/main.css">
   <link rel="stylesheet" href="../global/print.css" media="print">
 </head>
 
 <body>
+
+  <!-- ===================== HEADER ===================== -->
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="../index.html" aria-label="ShipSmart Home">
         <img class="brand-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
         <span class="brand-name">ShipSmart</span>
       </a>
-
       <nav class="nav" aria-label="Main navigation">
         <ul class="nav-list">
           <li><a class="nav-link" href="../index.html">Home</a></li>
           <li><a class="nav-link" href="services.html">Services</a></li>
-          <li><a class="nav-link" href="schedule.html">Schedule</a></li>
+          <li><a class="nav-link" href=" schedule.php">Schedule</a></li>
           <li><a class="nav-link is-active" href="search.html">Search</a></li>
           <li><a class="nav-link" href="upload.html">Upload</a></li>
           <li><a class="nav-link" href="video.html">Video</a></li>
           <li><a class="nav-link" href="feedback.html">Feedback</a></li>
+          <li><a class="nav-link" href="../profile.php">Profile</a></li>
+          <li id="nav-dashboard" style="display:none">
+            <a class="nav-link" href="../admin/dashboard.php"
+               style="color:var(--accent);font-weight:900">Dashboard</a>
+          </li>
         </ul>
       </nav>
-
-      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-        ☰
-      </button>
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </header>
 
+  <!-- ===================== MAIN ===================== -->
   <main>
-    <section class="section page-hero">
+
+    <!-- Search hero band -->
+    <div class="search-hero">
       <div class="container">
         <h1>Search Shipments</h1>
-        <p class="muted">
-          Find shipments by tracking number, city, carrier, status, category, or estimated delivery date.
-        </p>
-      </div>
-    </section>
+        <p>Find any shipment by tracking number, city, carrier, status, or delivery date.</p>
 
-    <section class="section search-section">
-      <div class="container">
-        <!-- Search bar -->
-        <form id="searchForm" class="search-bar card" role="search" aria-label="Shipment search">
-          <label class="sr-only" for="searchQuery">Search keyword</label>
+        <form id="searchForm" class="search-bar" role="search" aria-label="Shipment search">
+          <label class="sr-only" for="searchQuery">Search shipments</label>
           <input
             id="searchQuery"
             type="text"
-            placeholder="Search by tracking number, origin, or destination…"
+            placeholder="Type a tracking number, city, or carrier…"
             autocomplete="off"
-          />
-          <button class="btn btn-primary search-submit" type="submit" id="searchBtn">Search</button>
+            autofocus
+          >
         </form>
+      </div>
+    </div>
 
+    <!-- Filters + Results -->
+    <section class="section search-section">
+      <div class="container">
         <div class="search-layout">
-          <!-- Filters -->
+
+          <!-- ── Filter panel ── -->
           <aside class="filter-panel card" aria-label="Search filters">
-            <h2 class="filter-title">Filters</h2>
+            <div class="filter-panel-head">
+              <h2 class="filter-title">Filters</h2>
+              <button class="filter-clear" type="button" id="clearFiltersBtn">Clear all</button>
+            </div>
 
             <div class="filter-group">
               <label for="filterCarrier">Carrier</label>
               <select id="filterCarrier">
-                <option value="">All</option>
+                <option value="">All carriers</option>
                 <option value="aramex">Aramex</option>
                 <option value="dhl">DHL</option>
                 <option value="fedex">FedEx</option>
@@ -86,7 +93,7 @@ Purpose: ShipSmart Search Page — live shipment search and filtering
             <div class="filter-group">
               <label for="filterStatus">Status</label>
               <select id="filterStatus">
-                <option value="">All</option>
+                <option value="">All statuses</option>
                 <option value="created">Created</option>
                 <option value="picked_up">Picked Up</option>
                 <option value="in_transit">In Transit</option>
@@ -98,7 +105,7 @@ Purpose: ShipSmart Search Page — live shipment search and filtering
             <div class="filter-group">
               <label for="filterCategory">Category</label>
               <select id="filterCategory">
-                <option value="">All</option>
+                <option value="">All categories</option>
                 <option value="standard">Standard</option>
                 <option value="express">Express</option>
                 <option value="freight">Freight</option>
@@ -116,58 +123,81 @@ Purpose: ShipSmart Search Page — live shipment search and filtering
                 <input id="dateTo" type="date">
               </div>
             </fieldset>
-
-            <button class="btn btn-ghost filter-clear" type="button" id="clearFiltersBtn">Clear Filters</button>
           </aside>
 
-          <!-- Results -->
+          <!-- ── Results ── -->
           <div class="search-results-wrap">
             <div class="search-results-head">
-              <p id="resultCount" class="result-count muted">Showing 0 results</p>
+              <p id="resultCount" class="result-count">Showing 0 results</p>
               <div id="searchLoading" class="search-loading" hidden>
                 <span class="spinner" aria-hidden="true"></span>
-                <span>Loading shipments…</span>
+                Searching…
               </div>
             </div>
 
-            <p id="noResults" class="no-results card" hidden>No shipments found</p>
+            <!-- Empty state -->
+            <div id="noResults" class="no-results card" hidden>
+              <div class="no-results-icon">
+                <img src="../images/not-found-16-svgrepo-com (1).svg" alt="No results found">
+              </div>
+              <h3>No shipments found</h3>
+              <p>Try a different keyword or clear the filters.</p>
+            </div>
 
+            <!-- Cards -->
             <div id="searchResults" class="search-results" aria-live="polite"></div>
           </div>
+
         </div>
       </div>
     </section>
   </main>
 
+  <!-- ===================== FOOTER ===================== -->
   <footer class="site-footer">
-    <div class="container footer-grid">
-      <div>
-        <div class="footer-brand">
-          <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
-          <strong>ShipSmart</strong>
+    <div class="container footer-inner">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img class="footer-logo" src="../images/shipsmart-logo-3.svg" alt="ShipSmart logo">
+            <strong>ShipSmart</strong>
+          </div>
+          <p class="muted">Universal Shipment Tracker &mdash; a course project for CPCS 403.</p>
+          <p class="small">Tracking smarter, one parcel at a time.</p>
         </div>
-        <p class="muted small">
-          Universal Shipment Tracker — a course project for CPCS 403.
-        </p>
-        <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
+        <div>
+          <p class="footer-title">Pages</p>
+          <ul class="footer-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href=" schedule.php">Schedule</a></li>
+            <li><a href="search.html">Search</a></li>
+            <li><a href="upload.html">Upload</a></li>
+            <li><a href="video.html">Video</a></li>
+            <li><a href="feedback.html">Feedback</a></li>
+          </ul>
+        </div>
       </div>
-
-      <div>
-        <p class="footer-title">Pages</p>
-        <ul class="footer-links">
-          <li><a href="services.html">Services</a></li>
-          <li><a href="schedule.html">Schedule</a></li>
-          <li><a href="search.html">Search</a></li>
-          <li><a href="video.html">Video</a></li>
-          <li><a href="feedback.html">Feedback</a></li>
-        </ul>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ShipSmart &mdash; King Abdulaziz University, Jeddah</p>
+        <span class="footer-badge">
+          <span class="footer-badge-dot"></span>CPCS 403 Project
+        </span>
       </div>
-
-  
     </div>
   </footer>
 
   <script src="../scripts/main.js"></script>
   <script src="../scripts/search.js"></script>
+
+  <!-- Active filter highlight -->
+  <script>
+    ['filterCarrier','filterStatus','filterCategory'].forEach(id => {
+      const el = document.getElementById(id);
+      el?.addEventListener('change', () =>
+        el.classList.toggle('is-filtered', !!el.value)
+      );
+    });
+  </script>
 </body>
 </html>

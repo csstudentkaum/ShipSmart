@@ -35,12 +35,14 @@ Purpose: ShipSmart Home Page (Universal Shipment Tracker) - interactive landing 
       <nav class="nav" aria-label="Main navigation">
         <ul class="nav-list">
           <li><a class="nav-link is-active" href="index.html">Home</a></li>
-          <li><a class="nav-link" href="pages/services.html">Services</a></li>
-          <li><a class="nav-link" href="pages/schedule.html">Schedule</a></li>
+          <li><a class="nav-link" href="pages/services.html">About</a></li>
+          <li><a class="nav-link" href="pages/ schedule.php">Schedule</a></li>
           <li><a class="nav-link" href="pages/search.html">Search</a></li>
           <li><a class="nav-link" href="pages/upload.html">Upload</a></li>
           <li><a class="nav-link" href="pages/video.html">Video</a></li>
           <li><a class="nav-link" href="pages/feedback.html">Feedback</a></li>
+          <li><a class="nav-link" href="Profile.php">Profile</a></li>
+          <li id="nav-dashboard" style="display:none"><a class="nav-link" href="admin/dashboard.php" style="color:var(--accent);font-weight:900">Dashboard</a></li>
         </ul>
       </nav>
 
@@ -126,7 +128,7 @@ Purpose: ShipSmart Home Page (Universal Shipment Tracker) - interactive landing 
               <span class="chip chip-soft">Fast & Simple</span>
             </div>
 
-            <!-- ✅ FIXED: media wrapper so image fits perfectly -->
+            <!-- media wrapper so image fits perfectly -->
             <div class="hero-media">
               <img class="hero-illus" src="images/wherehouse pirbul boxes.svg" alt="Warehouse with boxes illustration" />
             </div>
@@ -169,7 +171,7 @@ Purpose: ShipSmart Home Page (Universal Shipment Tracker) - interactive landing 
         </div>
       </div>
 
-      <!-- ✅ FIXED: Supported carriers full width under BOTH cards -->
+      <!-- Supported carriers full width under BOTH cards -->
       <div class="container">
         <div class="container container-wide">
         <div class="logos logos-wide">
@@ -308,32 +310,42 @@ Purpose: ShipSmart Home Page (Universal Shipment Tracker) - interactive landing 
     </section>
   </main>
 
-  <!-- ===================== FOOTER (Semantic Tag required) ===================== -->
-  <footer class="site-footer">
-    <div class="container footer-grid">
+  <!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
       <div>
         <div class="footer-brand">
-          <img class="footer-logo" src="images/shipsmart-logo-3.svg" alt="ShipSmart logo" />
+          <img class="footer-logo" src="images/shipsmart-logo-3.svg" alt="ShipSmart logo">
           <strong>ShipSmart</strong>
         </div>
-        <p class="muted small">
-          Universal Shipment Tracker — a course project for CPCS 403.
-        </p>
-        <p class="small">&copy; 2026 ShipSmart. All rights reserved.</p>
+        <p class="muted">Universal Shipment Tracker &mdash; a course project for CPCS 403.</p>
+        <p class="small">Tracking smarter, one parcel at a time.</p>
       </div>
 
       <div>
         <p class="footer-title">Pages</p>
         <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
           <li><a href="pages/services.html">Services</a></li>
-          <li><a href="pages/schedule.html">Schedule</a></li>
+          <li><a href="pages/ schedule.php">Schedule</a></li>
+          <li><a href="pages/search.html">Search</a></li>
+          <li><a href="pages/upload.html">Upload</a></li>
           <li><a href="pages/video.html">Video</a></li>
           <li><a href="pages/feedback.html">Feedback</a></li>
+    
         </ul>
       </div>
-
     </div>
-  </footer>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 ShipSmart &mdash; King Abdulaziz University, Jeddah</p>
+      <span class="footer-badge">
+        <span class="footer-badge-dot"></span>CPCS 403 Project
+      </span>
+    </div>
+  </div>
+</footer>
 
   <!-- External JS (Required) -->
   <script src="scripts/main.js"></script>

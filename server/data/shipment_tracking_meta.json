@@ -1,0 +1,8 @@
+{
+    "test-json-1780676272": {
+        "tracking_number": "TN999",
+        "courier_code": "dhl",
+        "weight_kg": "22.5",
+        "estimated_delivery": "2026-07-01"
+    }
+}

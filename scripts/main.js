@@ -26,6 +26,20 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
 (function () {
   "use strict";
 
+  // Show Dashboard nav item for admins when page is static HTML
+  (function revealAdminNav(){
+    try{
+      fetch('/api/whoami.php', { credentials: 'include' })
+        .then(r => r.json())
+        .then(j => {
+          if (j && j.role === 'admin') {
+            const el = document.getElementById('nav-dashboard');
+            if (el) el.style.display = '';
+          }
+        }).catch(()=>{});
+    }catch(e){}
+  })();
+
   // ===== Common elements (may be missing on some pages) =====
   const navToggle = document.querySelector(".nav-toggle");
   const trackForm = document.getElementById("trackForm");
@@ -175,6 +189,44 @@ Purpose: JavaScript functionality — navigation toggle, tracking form validatio
     const opened = document.body.classList.toggle("menu-open");
     navToggle.setAttribute("aria-expanded", String(opened));
   });
+
+  // ===== Convert header nav to side-nav on wide screens =====
+  const setupSideNav = () => {
+    // only on desktop widths
+    if (window.innerWidth < 861) {
+      document.body.classList.remove('layout-sidebar');
+      const existing = document.getElementById('site-side-nav');
+      if (existing) existing.remove();
+      return;
+    }
+
+    // create side-nav container if not exists
+    let side = document.getElementById('site-side-nav');
+    if (!side) {
+      side = document.createElement('aside');
+      side.id = 'site-side-nav';
+      side.className = 'side-nav';
+      // clone brand and nav-list
+      const header = document.querySelector('.site-header .brand');
+      if (header) side.appendChild(header.cloneNode(true));
+      const nav = document.querySelector('.site-header .nav');
+      if (nav) side.appendChild(nav.cloneNode(true));
+      document.body.appendChild(side);
+    }
+    document.body.classList.add('layout-sidebar');
+    // expose dashboard link if admin
+    const adminLi = document.getElementById('nav-dashboard');
+    if (adminLi) adminLi.style.display = '';
+  };
+
+  // run on load and resize (debounced)
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setupSideNav, 120);
+  });
+  // initial
+  setupSideNav();
 
   // ===== Track button =====
   const doTrack = () => {
