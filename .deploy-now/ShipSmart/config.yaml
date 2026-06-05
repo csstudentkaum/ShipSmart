@@ -1,0 +1,16 @@
+# IONOS Deploy Now — PHP deployment config for ShipSmart
+# https://docs.ionos.space/docs/deployment-configuration/
+
+version: 1.0
+
+deploy:
+  bootstrap:
+    excludes:
+      - generate_hashes.php
+      - test_tracking.php
+      - docs
+
+  recurring:
+    excludes:
+      - server/data
+      - uploads

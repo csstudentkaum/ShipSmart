@@ -1,0 +1,35 @@
+<?php
+/*
+ * File: server/db_config.php
+ * Purpose: MySQL database connection (IONOS MariaDB — credentials injected at deploy)
+ * @see https://docs.ionos.space/docs/runtime-configuration/
+ */
+
+define('DB_HOST', '$IONOS_DB_HOST');
+define('DB_NAME', '$IONOS_DB_NAME');
+define('DB_USER', '$IONOS_DB_USERNAME');
+define('DB_PASS', '$IONOS_DB_PASSWORD');
+
+$conn = null;
+$db_conn_error = null;
+
+function _try_mysqli_connect(string $host): array {
+    try {
+        $c = new mysqli($host, DB_USER, DB_PASS, DB_NAME);
+        if ($c->connect_error) {
+            return [null, $c->connect_error];
+        }
+        return [$c, null];
+    } catch (mysqli_sql_exception $e) {
+        return [null, $e->getMessage()];
+    }
+}
+
+[$conn, $db_conn_error] = _try_mysqli_connect(DB_HOST);
+
+if ($conn !== null) {
+    $conn->set_charset('utf8mb4');
+    require_once __DIR__ . '/includes/db_install.php';
+    shipsmart_ensure_schema($conn);
+}
+?>
