@@ -20,13 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Try to include optional helpers (DB/auth). When running locally without
 // a database we still want the test accounts below to work — avoid fatal
 // errors if the files are missing.
-$dbPath = __DIR__ . '/../includes/db.php';
-$authPath = __DIR__ . '/../includes/auth.php';
+$dbPath   = __DIR__ . '/../server/includes/db.php';
+$authPath = __DIR__ . '/../server/includes/auth.php';
+$conn     = null;
+
 if (file_exists($dbPath)) {
     require_once $dbPath;
-} else {
-    // Leave $conn undefined/null — code below will use test accounts first.
-    $conn = null;
 }
 if (file_exists($authPath)) {
     require_once $authPath;
@@ -76,10 +75,19 @@ if (isset($testAccounts[strtolower($email)])) {
     $_SESSION['user_id']   = $t['id'];
     $_SESSION['full_name'] = $t['full_name'];
     $_SESSION['role']      = $t['role'];
-    echo json_encode(['success' => true, 'role' => $t['role'], 'redirect' => 'profile.php']);
+    $redirect = $t['role'] === 'admin' ? 'admin/dashboard.php' : 'index.html';
+    echo json_encode(['success' => true, 'role' => $t['role'], 'redirect' => $redirect]);
     exit;
 }
 // ── END TEST ACCOUNTS ─────────────────────────────────────────
+
+if (!$conn) {
+    http_response_code(503);
+    echo json_encode(['success' => false, 'errors' => [
+        'general' => 'Database unavailable. Please try again later.',
+    ]]);
+    exit;
+}
 
 // Fetch user
 $stmt = $conn->prepare(

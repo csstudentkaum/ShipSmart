@@ -11,6 +11,27 @@ CREATE DATABASE IF NOT EXISTS shipsmart_db
 -- use the database
 USE shipsmart_db;
 
+-- ============================================================
+-- Users table (registration, login, RBAC)
+-- Run once: mysql < server/schema.sql
+-- Match credentials in server/db_config.php
+-- ============================================================
+CREATE TABLE IF NOT EXISTS users (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  full_name     VARCHAR(100)  NOT NULL,
+  email         VARCHAR(255)  NOT NULL UNIQUE,
+  password_hash VARCHAR(255)  NOT NULL,
+  role          ENUM('admin', 'user') NOT NULL DEFAULT 'user',
+  created_at    DATETIME      DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Demo accounts (Admin@1234 / User@1234) — bcrypt hashes only
+INSERT IGNORE INTO users (full_name, email, password_hash, role) VALUES
+('Admin', 'admin@shipsmart.com',
+ '$2y$10$ys.DLS9GjBV/SJrrHgVKruLfy27oCrFJlcAJd2u.aHA6wBYf8qE5G', 'admin'),
+('Sara Ahmed', 'user@shipsmart.com',
+ '$2y$10$VM0l3pZAG34tIcX55T71Vu4qLq6uQ2GHf/rjwHyAi3PJ4.2tRDGlu', 'user');
+
 -- Create the feedback table
 CREATE TABLE IF NOT EXISTS feedback (
   id          INT AUTO_INCREMENT PRIMARY KEY,
